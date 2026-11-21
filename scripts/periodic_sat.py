@@ -8,13 +8,18 @@ Constraint for each phase i (bit w_i = 1: black read, left turn):
 Positions are one-hot in a bounded box, so UNSAT only means "no such word inside the box".
 Optionally block the cyclic rotations of given words (e.g. the standard 104 word).
 Writes DIMACS with CryptoMiniSat XOR lines.
-usage: python periodic_sat.py P ZMAX UMIN UMAX out.cnf [blockfile]
+usage: python periodic_sat.py P ZMAX UMIN UMAX out.cnf [blockfile] [--free-start]
+With --free-start the initial heading is free (it must only equal the final heading); by
+rotation symmetry this covers every orbit whose drift is a diagonal (+-2,+-2).
 """
 import sys
 
 def main():
     P, ZMAX, UMIN, UMAX, out = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]), sys.argv[5]
-    block = open(sys.argv[6]).read().split() if len(sys.argv) > 6 else []
+    rest = sys.argv[6:]
+    free_start = "--free-start" in rest
+    rest = [a for a in rest if a != "--free-start"]
+    block = open(rest[0]).read().split() if rest else []
     nv = [0]
     def new():
         nv[0] += 1
@@ -32,7 +37,11 @@ def main():
                 cls.append([-vs[a], -vs[b]])
     for i in range(P + 1):
         exactly_one(D[i]); exactly_one(list(Z[i].values())); exactly_one(list(U[i].values()))
-    cls.append([D[0][0]]); cls.append([D[P][0]])
+    if free_start:
+        for d in range(4):
+            cls.append([-D[0][d], D[P][d]]); cls.append([D[0][d], -D[P][d]])
+    else:
+        cls.append([D[0][0]]); cls.append([D[P][0]])
     cls.append([Z[0][0]]); cls.append([U[0][0]])
     cls.append([Z[P][0]]); cls.append([U[P][-4]])                    # v = (-2,-2): u -4, z 0
     # turning: black (w) -> left = d-1, white -> right = d+1
