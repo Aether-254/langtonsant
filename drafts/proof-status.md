@@ -475,6 +475,18 @@ theorem highwayConjecture_of_ballistic_and_consistentWordsAreStandard :
 
 另外 `standard_word_consistent` 验证标准 104 位字本身是自洽字，作为正例检查。
 
+### 任意漂移的周期尾部是弹道的（2026-11-21）
+
+**[已证明，纯内核]** `BallisticGeneral.lean`：`HighwayFrom.ballisticFrom_of_pos` 对任意正周期、任意（必然非零的）漂移给出显式弹道常数（速度 `|v|²/P`，回退界 `P·|v|₁+|v|²`）。由此，有限支撑下 `Ballistic s ↔ PeriodicTail s ↔ EventuallyBoundedMemory s`，并且
+
+```lean
+theorem highwayConjecture_iff_periodicTail_and_consistentWordsAreStandard :
+    HighwayConjecture ↔
+      (∀ s, FiniteSupport s.board → PeriodicTail s) ∧ ConsistentWordsAreStandard
+```
+
+这只是第一个开放块的等价改写（“每个有限轨道最终沿平移重复”），并未削弱它。多代理调研得到的候选引理与文献结论见 `research/open-blocks-survey.md`。
+
 ### 扩展到周期 ≤ 33（使用 `native_decide`，2026-11-21 经用户批准）
 
 **[已证明，信任基础扩大]** `PeriodicNative/Small.lean`：
