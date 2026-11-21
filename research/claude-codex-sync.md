@@ -281,3 +281,89 @@ Codex 的额度已用尽，两个 Codex 线程停在以下状态，后续全部�
 ## 2026-11-21 Claude：FastCell 病态慢的原因已定位
 
 单步函数里的 `let d := turn ...`，与每步对上一步投影所做的窗口检查叠加，会使内核耗时随步数大致按指数增长。去掉 `let` 后，`FastCell3.lean` 中的 `checkSingleBlackFast3` 用了 7.7 秒（Fast2 为 2194 秒），76377 步的大格子用了 27.9 秒且无需分段。新的定义与原定义相等，可靠性直接继承。今后的大规模证书应统一使用 Fast3。
+
+## 2026-11-21 Codex C：续接与范围登记
+
+| 文件 | 占用方 | 状态 |
+| --- | --- | --- |
+| `PeriodicWord*.lean`、`scripts/PeriodicWordChecks.lean`、`lakefile.toml` 的任务 C 模块登记 | Codex C | 开始定义白背景自洽字及周期尾部归约 |
+
+- 中断前仅检查了 Git 状态，尚无任务 C 实现；本次从当前 `single-black-cell` 分支的干净工作区开始。
+- 已读任务、证明状态、审阅与协作记录。复用 `HighwayFrom.drift_ne_zero`、读色周期性及旋转平移对称性；不修改其他已有 Lean 模块。
+- 首先证明有界重访计数确实覆盖双向无限路径，再证明有限支撑周期尾部的归约。奇数周期排除将尝试给出一般证明；外部枚举结果不进入证明依赖。
+- 重型内核检查串行执行，不构建 `SingleBlackEarly` 或 `SingleBlackFull`。本条仅登记范围，无新增定理或构建结果。
+
+## 2026-11-21 Codex C：里程碑 1，自洽字与奇数周期排除
+
+| 文件 | 占用方 | 状态 |
+| --- | --- | --- |
+| `PeriodicWordCore.lean`、`PeriodicWord.lean`、`scripts/PeriodicWordChecks.lean` | Codex C | 核心定义及辅助定理通过；正在完成历史访问与相位列表的双射 |
+
+- `wordTrace w n` 从原点朝北按读色字行进，`wordDrift P w` 为周期末位置。`EarlierPhase a v i j` 表示 `j < i` 且同格，或存在正自然数 `t` 满足 `a j = a i + t*v`。非零漂移使每个相位至多贡献一次更早访问。
+- `checkEarlierPhase_iff hv i j` 证明整数除法检查器与上述无界存在命题等价，负漂移和零横坐标均被覆盖。`period_overlap_bound hi hj hv he` 证明 `i,j<P` 时所有相交周期距离满足 `t <= 2*P`；没有截断遗漏的远期访问。
+- 精确接口：`checkConsistentWord P w = true ↔ ConsistentWord P w`。后者要求末朝向为北、漂移非零，以及每个 `i<P` 的读色等于 `priorPhases P w i` 长度的奇偶。
+- `ConsistentWord.even : ConsistentWord P w -> P % 2 = 0`；`no_consistent_word_odd : P % 2 = 1 -> forall w, ¬ ConsistentWord P w`。这是一般证明，不使用探索枚举。
+- 已证明 `board_visit_parity` 和 `HighwayFrom.exists_white_copy`：有限支撑的正周期公路在每个固定相位都有任意晚的、初始为白的周期副本。主归约尚未完成。
+- 编译使用 `LEAN_PATH=D:\langtonsant\.lake\build\lib\lean`，命令为 `tools\lean-4.36.0-windows\bin\lean.exe -DwarningAsError=true -o .lake/build/lib/lean/PeriodicWordCore.olean PeriodicWordCore.lean`，以及同式编译 `PeriodicWord.lean` 后运行 `lean.exe -DwarningAsError=true scripts/PeriodicWordChecks.lean`。最近一次后两项顺序运行退出码 0，合计 4.38 s。
+- 审计上述检查器、计数界、奇数排除、棋盘奇偶和白色副本定理：仅 `propext`、`Classical.choice`、`Quot.sound` 的子集。小规模边界检查使用 `decide +kernel`，尚无重型穷举。
+
+## 2026-11-21 Codex C：里程碑 2，主归约完成
+
+| 文件 | 占用方 | 状态 |
+| --- | --- | --- |
+| `PeriodicWordCore.lean`、`PeriodicWord.lean`、`scripts/PeriodicWordChecks.lean` | Codex C | 主归约已通过编译和公理审计；补充整数周期接口、有限检查与构建集成中 |
+
+精确的主定理比任务要求略强：
+
+```lean
+theorem periodic_tail_consistent_at_start {s : State} {T P : Nat} {v : Point}
+    (hs : FiniteSupport s.board) (hP : 0 < P) (h : HighwayFrom s T P v) :
+    ConsistentWord P (fun i => readColor s (T + i))
+
+theorem periodic_tail_consistent {s : State} {T P : Nat} {v : Point}
+    (hs : FiniteSupport s.board) (hP : 0 < P) (h : HighwayFrom s T P v) :
+    exists U, T <= U ∧ ConsistentWord P (fun i => readColor s (U + i))
+```
+
+- 第二条取 `U=T`。证明将 `run s T` 旋转平移到原点朝北；该操作保留读色，不需要改变字本身。
+- 对每个相位，利用有限支撑和非零漂移选择任意晚的初始白色副本。`HighwayFrom.visits_phase_perm` 证明：当副本编号 `K >= 2*P` 时，所有真实更早访问按模 `P` 映射后，恰好是 `priorPhases` 的一个排列，且没有重复相位。这保证奇偶计数既无遗漏又无重复。
+- 棋盘颜色由真实有限历史中的翻色奇偶给出；运动周期性将这个任意晚副本的读色传回原周期。没有将原起点之前的棋盘误设为全白，也没有用有限模拟证明无限尾部。
+- 推论 `no_odd_periodic_tail hs hP hodd : ¬ HighwayFrom s T P v` 已证明。
+- 验证命令：设置上述 `LEAN_PATH`，顺序运行 `lean.exe -DwarningAsError=true -o .lake/build/lib/lean/PeriodicWord.olean PeriodicWord.lean`、`lean.exe -DwarningAsError=true scripts/PeriodicWordChecks.lean`。退出码 0，合计 4.57 s。
+- `#print axioms` 审计访问排列、两个主归约及奇数周期推论，均仅依赖 `propext`、`Classical.choice`、`Quot.sound`。无重型内核计算。
+
+## 2026-11-21 Codex C：里程碑 3，组合分类接口与小周期内核结论
+
+| 文件 | 占用方 | 状态 |
+| --- | --- | --- |
+| `PeriodicWord*.lean`、`scripts/PeriodicWordChecks.lean`、`lakefile.toml` | Codex C | 全部定理及检查通过；默认构建集成验证中 |
+
+- `biPeriodicPos P w k j = wordPos w j + k*wordDrift P w` 明确定义双向整数周期路径。`mem_priorPhases_iff_integer_period` 把列表成员与 `exists k : Int, k*P+j<i ∧ biPeriodicPos P w k j=wordPos w i` 等价起来；`biPeriodicPos_injective_period` 证明非零漂移下固定相位的周期编号唯一。因此列表长度确实计数全部更早访问，而非只记录是否访问过。
+- 新增纯组合待证命题 `ConsistentWordsAreStandard`：对每个正 `P` 和自洽字 `w`，存在 `a<P`，使全部 `n<104*P` 满足 `w ((a+n)%P)=certifiedColor n`。窗口为两周期的公共倍数；`finite_word_standard_extends` 证明有限比较自动延伸到全部自然数。
+- `consistentWordsAreStandard_implies_periodicIsStandard` 和 `highwayConjecture_of_ballistic_and_consistentWordsAreStandard` 已证明。只给出充分归约，不声称逆向等价，也不把该分类命题设为公理。`standard_word_consistent` 给出标准 104 位字的正例。
+- `PeriodicWordEnumeration.lean` 以位编码覆盖任意 `Nat -> Bool` 字在 `i<P` 的前缀，并证明检查器穷举的可靠性。偶数 `2,4,6,8,10,12` 已用 `decide +kernel` 排除，结合全部奇数排除得到：
+
+```lean
+theorem no_consistent_word_small (P : Nat) (h1 : 0 < P) (h2 : P <= 13) (w : Nat -> Bool) :
+    ¬ ConsistentWord P w
+
+theorem no_periodic_tail_small {s : State} {T P : Nat} {v : Point}
+    (hs : FiniteSupport s.board) (h1 : 0 < P) (h2 : P <= 13) : ¬ HighwayFrom s T P v
+```
+
+- 内存实测：早期 `P<=8` 检查 3.33 s，采样峰值私有内存 1307 MiB；最终整数编码 `P=10` 检查 9.29 s，1840 MiB。整块 `P=12` 尝试被内存守卫终止，没有使用它的未完成结果。
+- `P=12` 改为 8 个模块，每块 512 个编码，按 A 至 H 的导入链串行。各块实测耗时为 5.79、6.48、5.36、5.21、5.08、4.97、5.00、5.34 s；采样峰值私有内存 1489–1538 MiB，最低可用物理内存 3.16 GiB。每次命令均为 `lean.exe -M1536 -DwarningAsError=true -o .lake/build/lib/lean/<module>.olean <module>.lean`，辅以每 200 ms 检查可用物理内存/提交空间及进程私有内存的守卫，退出码全部为 0。
+- 新库目标 `PeriodicWords` 已加入默认目标，设置 `moreLeanArgs = ["-M1536", "-DwarningAsError=true"]`；证书导入链确保 Lake 无法并发运行这些重型检查。其他既有库配置未改动。
+- 最后顺序编译 `PeriodicWordReduction`、`PeriodicWordCheck12`、`PeriodicWordSmall` 并执行 `scripts/PeriodicWordChecks.lean`，共 8.11 s，退出码 0。脚本审计 20 个定理，公理均仅标准三个的子集；另检查零周期、奇数周期、漂移正负/零横坐标、标准字正例、任意旋转平移及任意起点的小周期排除。
+
+## 2026-11-21 Codex C：里程碑 4，任务完成与最终验证
+
+| 文件 | 占用方 | 状态 |
+| --- | --- | --- |
+| `PeriodicWord*.lean`、`scripts/PeriodicWordChecks.lean`、`lakefile.toml` 的任务 C 集成 | Codex C | 完成；已验证，可供后续工作使用 |
+
+- `tools\lean-4.36.0-windows\bin\lake.exe build` 默认构建成功，共 129 项，实测 63.54 s；本轮新增的 16 个根模块全部经 Lake 重建。重型内核证书按导入链串行，运行中检查到一个 Lean 编译进程；构建期间采样最低可用物理内存 3.68 GiB。构建范围为默认 `LangtonsAnt`、`PeriodicWords`，未构建 `SingleBlackEarly` 或 `SingleBlackFull`。
+- 构建后执行 `tools\lean-4.36.0-windows\bin\lake.exe env lean -M1536 -DwarningAsError=true scripts/PeriodicWordChecks.lean`，退出码 0，实测 2.31 s。20 个定理的公理依赖均仅包含 `propext`、`Classical.choice`、`Quot.sound` 的子集。
+- 新增 Lean 文件的 `sorry`、`admit`、`native_decide`、自定义 `axiom`、`unsafe`、`implemented_by`、`extern` 扫描无命中，`git diff --check` 通过。
+- 最终证明范围：有限支撑正周期尾部在原起点即给出白背景自洽字；全部奇数长度排除；所有 `1 <= P <= 13` 的自洽字及有限支撑最终周期排除；标准 104 位字为正例；纯组合分类条件充分推出 `PeriodicIsStandard`。
+- 尚未证明该组合分类条件本身，也未证明所有自洽字都来自有限支撑实际轨迹。因此这里不声称分类条件与 `PeriodicIsStandard` 等价，不声称一般有限支撑猜想成立。外部 `P=14..36` 的探索结果没有进入证明依赖。

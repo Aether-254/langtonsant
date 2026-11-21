@@ -446,6 +446,40 @@ theorem singleBlackAt_standard (p : Point) (d : Direction) (q : Point) :
 - 这一结论只覆盖**恰好一个**初始黑格的情形。两个及以上黑格的一般有限初态仍未证明，原始猜想 `HighwayConjecture` 也仍未证明。
 - 早期格子部分是对 2215 个具体格子的有限穷举，不包含可以推广到多黑格的结构性论证。
 
+
+## 周期尾部的组合归约（2026-11-21，Codex 形式化，Claude 独立复核）
+
+`PeriodicWordCore.lean` 定义白背景自洽字 `ConsistentWord P w`：沿转向字 `w` 走一个周期后朝向回到原样，漂移 `v ≠ 0`，且在双向无限周期路径上，每一步读到的颜色等于该格此前被访问次数的奇偶。`checkConsistentWord_iff` 证明可判定检查器与命题等价。
+
+主要结论：
+
+```lean
+theorem periodic_tail_consistent_at_start (hs : FiniteSupport s.board) (hP : 0 < P)
+    (h : HighwayFrom s T P v) : ConsistentWord P (fun i => readColor s (T + i))
+
+theorem no_odd_periodic_tail (hs : FiniteSupport s.board) (hP : 0 < P) (hodd : P % 2 = 1) :
+    ¬ HighwayFrom s T P v
+
+theorem no_periodic_tail_small (hs : FiniteSupport s.board) (h1 : 0 < P) (h2 : P <= 13) :
+    ¬ HighwayFrom s T P v
+
+theorem highwayConjecture_of_ballistic_and_consistentWordsAreStandard :
+    (forall s, FiniteSupport s.board -> Ballistic s) -> ConsistentWordsAreStandard ->
+      HighwayConjecture
+```
+
+- 第一条：有限支撑的周期尾部从起点 `T` 开始，读色字就已经是自洽字。
+- 第二条：一般地排除奇数周期，理由是朝向回到原样要求转向数满足 `#右 − #左 ≡ 0 (mod 4)`。
+- 第三条：偶数 2 至 12 用 `decide +kernel` 穷举排除。其中周期 12 拆成 8 个模块，以控制内存。
+- 第四条：把原猜想归约为动力学条件 `Ballistic` 与纯组合条件 `ConsistentWordsAreStandard`。后者要求每个自洽字在循环移相后与标准字一致。
+
+另外 `standard_word_consistent` 验证标准 104 位字本身是自洽字，作为正例检查。
+
+**边界。**
+
+- `ConsistentWordsAreStandard` 与 `Ballistic` 都未证明，原猜想仍未解决。
+- 探索程序 `scripts/periodic_words.c` 的有限枚举显示，偶数 `P ≤ 32` 内没有自洽字。这只是探索结果，不进入证明。
+
 ## 任意数量且逐个被访问的初始黑格
 
 `MultipleObstacles.lean` 定义 `multipleObstacles n`：蚂蚁从原点朝北，初始黑格恰为
