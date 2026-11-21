@@ -13,7 +13,7 @@
 
 - 唯一已知的一般动力学定理是无界性：对任意初始构形（不限于有限支撑），轨道无界（Bunimovich–Troubetzkoy 1992；文献中也称 Cohen–Kong 定理，归属说法不一）。仓库中的对应结果是 `escapes_finite_set`。推论：无限次访问的格子集合没有“角”。上述陈述在 Gale–Propp–Sutherland–Troubetzkoy（arXiv math/9501233）、Gajardo–Moreira–Goles（arXiv nlin/0306022）、Gajardo–Lutfalla–Rao（arXiv 2409.10124）中读到；原始 1992 论文未读。
 - 有限支撑的公路猜想在所读全部文献中都被列为开放问题，没有找到对单黑格、弹道性或其任何弱化形式的证明。
-- **白背景公路的唯一性（即 `ConsistentWordsAreStandard`）未在任何所读文献中被处理**，既没有证明也没有反例。不过后续检索发现了 Research Square 预印本 rs-10516269，其标题与这一子问题高度重合，正文尚未读到。此外，单黑格定理已由 Hao Ke 先行发布，带有 Lean 证明。详见 `research/related-work.md`。在核对这两项之前，不能声称本仓库的相应结论是新的。
+- **白背景公路的唯一性（即 `ConsistentWordsAreStandard`）未在任何所读文献中被处理**，既没有证明也没有反例。后续检索发现，Jillhewar 的预印本（Research Square rs-10516269，2026-07）已用非形式化的穷举排除了周期 ≤ 48，并对所有周期证明了对角漂移下宽度 2 与宽度 4 的排除；单黑格定理也已由 Hao Ke 先行发布，带有 Lean 证明。本仓库在这两处的独特之处只在于端到端形式化。详见 `research/related-work.md`。
 - arXiv 2409.10124 第 2 节断言“有限构形中的周期轨迹必有白色背景”，并引用 Gajardo 的 *Sofic one head machines*（未读）。这与仓库的 `periodic_tail_consistent_at_start` 相对应，仓库已有完整证明。
 - 通用性与公路“种子”的构造（Gajardo–Moreira–Goles）都使用特制的无限背景，不构成有限支撑猜想的反例。
 
@@ -40,7 +40,7 @@ theorem highwayConjecture_iff_periodicTail_and_consistentWordsAreStandard :
 
 以下记号：`ConsistentWord P w`，漂移 `v = (a,b) ≠ 0`，双向周期延拓后的轨道 `pos`。
 
-### 3.1 前沿记录对（对所有 P 成立；最有结构价值）
+### 3.1 前沿记录对（对所有 P 成立；最有结构价值；在 Jillhewar 文中未见）
 
 取 `f(x,y) = s₁x + s₂y`，其中 `s₁ = sign a`、`s₂ = sign b`（0 时取 1），使 `f(v) = |a| + |b| > 0`。称 `n` 为记录时刻，若 `f(pos n)` 严格大于所有更早时刻的值。
 
@@ -54,11 +54,11 @@ theorem highwayConjecture_iff_periodicTail_and_consistentWordsAreStandard :
 
 用途：这是一个对所有周期都成立的局部结构定理，可以直接作为 SAT 编码的剪枝约束，也可能是“由前沿向内逐层确定轨道”这类论证的起点。后一种论证目前没有。
 
-### 3.2 侧向极值层（仅 `a·b ≠ 0`）
+### 3.2 侧向极值层（仅 `a·b ≠ 0`；对角情形即 Jillhewar Thm 9.1）
 
 取 `g(p) = b·p.1 − a·p.2`，它在整个访问集上有界。`g` 取最大值（或最小值）的格子在整条双向轨道中恰被访问一次，读白；到达与离开方向由 `sign a`、`sign b` 唯一确定。推论：奇数次访问的格子类至少 2 个。轴向漂移（`a·b = 0`）未覆盖。
 
-### 3.3 转向平衡恒等式
+### 3.3 转向平衡恒等式（Jillhewar Prop 5.4 / Cor 6.5 有更强形式 `g ∈ 4ℤ_{>0}`）
 
 记 `L` 为黑读次数，`R = P − L`。则 `R − L` 等于每周期奇数次访问的格子类个数，也就是每周期留下的黑格数，并且 `2L ≤ P`。其余衍生条件（`R − L ≡ 0 (mod 4)`、漂移分量的奇偶）只是“朝向回到北”与移动轴交替的直接改写。
 

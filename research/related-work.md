@@ -24,14 +24,33 @@
 - **Four and five rows**：四行的精确最大值为 `34n−150`。
 - README 说明其 `research/` 笔记不是已发表的定理。
 
-### 1.3 Research Square rs-10516269（只核对到标题，正文未读）
+### 1.3 Jillhewar：有限支撑周期公路（已通读全文）
 
-- 标题：*Finite-Support Periodic Highways of Langton's Ant: Necessary Conditions, Transverse Exclusions, and Exact Search*，<https://www.researchsquare.com/article/rs-10516269>。
-- 页面由 JavaScript 渲染。API 返回 403，Europe PMC 返回 503，作者、日期、摘要都没有取到。
-- 从标题看，它很可能与本仓库的周期尾部归约、小周期排除以及 SAT 探索重叠。**在读到正文之前，不能声称本仓库“周期 ≤ 33 不存在周期尾部”的结论是新的。** 需要人工打开页面核对：
-  1. 排除了哪些周期与漂移；
-  2. “exact search” 覆盖的范围；
-  3. 是否有形式化验证。
+- A. Jillhewar，*Finite-Support Periodic Highways of Langton's Ant: Necessary Conditions, Transverse Exclusions, and Exact Search*，Research Square 预印本 rs-10516269，正文日期 2026-07-21，发布日期 2026-07-30，CC BY 4.0。
+  - DOI：10.21203/rs.3.rs-10516269/v1。
+  - 代码与数据：Zenodo 10.5281/zenodo.21381637，镜像 <https://github.com/Atharva12456/langtons-ant-highway>。
+- 主要结果（均以“有限支撑、最终周期、漂移非零”为前提）：
+  - **Thm 3.1 周期可实现判据**：给出“无限周期字是有限支撑轨道的迹”的充要条件，并构造显式种子。它与本仓库的 `ConsistentWord` / `periodic_tail_consistent_at_start` 对应。差别在于，他们允许种子含黑格（稳定字以 R 开头即可），本仓库则把问题归约到白背景自洽字。
+  - **Thm 6.1、Cor 6.5、Thm 7.1、Cor 7.3**：
+    - 每周期的黑格净增长 `g = #R − #L` 属于 `4ℤ_{>0}`，并且 `g ≥ 2·max(|a|,|b|)`；
+    - 不存在零增长的“干净平移子”，他们给出了两个独立证明。
+    - 本仓库调研 §3.3 的转向平衡恒等式只是其中的弱形式。
+  - **Thm 9.1 极值线刚性**（对角漂移）：两条极值层线上的转向都是 R，其中每个格子恰被访问一次，横向宽度 W 为偶数。这与本仓库调研 §3.2 的“侧向极值层”本质相同；§3.2 声称适用于一般的 `a·b ≠ 0`，二者之间的差别尚未核对。
+  - **Thm 9.3、9.5**：对角漂移下，任何周期都不可能有横向宽度 2 或 4，因此 W ≥ 6。宽度 4 的证明依赖计算机辅助的“空白列”枚举（Lemma 9.4，12 条边）：由两套独立程序复现，Lean 只检查了秩递减这一部分，枚举的完备性不在 Lean 范围内。Remark 9.6 指出，同样的单列论证在宽度 6 处失效（存在局部振荡子）。
+  - **Thm 10.1**：不存在周期 ≤ 48 的有限支撑周期公路。方法是 Java 穷举，在不依赖 Thm 7.1 的变体上逐个评估判据；长度 ≤ 18 的部分另有 Python 暴力复现。这一结果**没有在 Lean 中形式化**。论文明确写明周期 50 至 102 不在其覆盖范围内。
+  - **Lean 部分**：Lean 4.32.0，仅用标准库，不用 `native_decide`，只检查了选定的代数核。原文：“What remains outside Lean is the extraction of that word and of the local geometric charge certificates from an arbitrary periodic ant orbit... neither it nor Conjecture 1.1 is asserted as an unconditional Lean theorem.”
+  - **Problem 11.1 / 11.2**：有界活动核心（对应本仓库的“周期尾部”这一块）与周期分类（对应 `ConsistentWordsAreStandard`）。这两个问题与本仓库的两个开放块一一对应。
+- **与本仓库的关系**：
+  - 在结论范围上，他们走得更远：周期下界为 48（本仓库为 33），还有对所有周期都成立的宽度 2 与宽度 4 排除。本仓库此前在调研文档中称“周期 ≤ 33 的结论可能是新的”，这一说法已撤回。
+  - 本仓库的不同之处在于**端到端的形式化**：
+    - 归约 `HighwayConjecture ↔ (∀ 有限 s, PeriodicTail s) ∧ ConsistentWordsAreStandard`，以及从任意有限支撑轨道到自洽字的提取，均为纯内核证明；
+    - 小周期排除由 Lean 检查，其中 ≤ 13 为纯内核，≤ 33 使用 `native_decide`。
+    - 他们恰好把“从轨道到字的提取”放在了 Lean 之外。
+  - 可以做的非重复工作：
+    1. 在本仓库框架内端到端形式化他们的 Thm 9.1、9.3、9.5，包括 Lemma 9.4 枚举的完备性，从而得到“对角漂移下宽度 ≤ 4 的周期尾部不存在”的完整 Lean 定理；
+    2. 把 Lean 认证的周期下界继续往 48 推进；
+    3. 处理周期 50 至 102，例如本仓库在受限盒内做的 SAT 探索。
+  - 本仓库调研 §3.1 的“前沿记录对”（因子 `100001`，以及 `P ≥ 4·|v|₁`）在该文中没有出现。该文的 Prop 4.3 讨论的是原轨道相对初始支撑包围盒的记录，不是同一个陈述。
 
 ## 2. 其他相关工作
 
@@ -48,6 +67,6 @@
 ## 3. 未找到
 
 - 除 Ke 之外，没有找到经典 RL 蚂蚁公路猜想（或其特例）的其他证明或声称的证明。
-- 没有找到白背景周期轨道的分类或唯一性定理。rs-10516269 的正文未读，此结论待定。
+- 没有找到白背景周期轨道的分类或唯一性定理。Jillhewar 的论文给出了许多必要条件与有界排除，但同样没有给出分类（见 1.3）。
 - 除无界性之外，没有找到关于有限构形弹道逃逸的结果。
 - 形式化方面，没有找到 Ke 以外的 Lean、Coq 或 Isabelle 工作。AFP、Lean Zulip、Agda、HOL4、ACL2、Metamath 没有单独检索，也没有单独检索 Codeberg、GitLab、HAL、OpenReview、SSRN。
