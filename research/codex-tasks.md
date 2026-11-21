@@ -72,3 +72,53 @@
 
    - 注意：这个结论只针对 `highwaySeed` 的具体历史。请写明它能否推广到 `AgreesBelow 0` 之外的任意历史；推测不能，因为路径回到了权重 7 > 0 的区域。
 3. **若证不出来，** 把确切的障碍写进同步文件，不要含糊带过。
+
+## 任务 C：周期尾部的白背景自洽归约（新建 `PeriodicWord.lean`）
+
+**背景。** 分解定理 `highwayConjecture_iff_ballistic_and_periodicIsStandard`（见 `Ballistic.lean`）把原猜想拆成两半。本任务处理其中的 `PeriodicIsStandard`，目标是把它归约为一个纯组合条件。
+
+Claude 的探索程序 `scripts/periodic_words.c`（只作探索，不进入证明）枚举了满足下述条件的转向字：对 `P = 1..30` 一个都没有；标准公路的 104 位字能通过检查，漂移为 `(-2,-2)`。
+
+**要证明的结论。**
+
+1. **定义白背景自洽字。**
+   - 转向字为 `w : Nat → Bool`，只用到 `i < P`。约定 `true` 表示读到黑色、左转。
+   - 路径从原点、朝北出发，按 `w` 逐步转向和前进。
+   - `ConsistentWord P w` 成立，当且仅当下列条件同时满足：
+     - 走完一个周期后朝向回到北；
+     - 一个周期的漂移 `v ≠ (0,0)`；
+     - 对每个 `i < P`，`w i` 等于第 `i` 步所在格子在双向无限周期路径上更早被访问次数的奇偶。双向无限周期路径定义为 `pos(kP+j) = pos(j) + k·v`，其中 `k` 取全体整数。
+
+   实现时，“更早访问”可以有界地数：满足 `j < i` 且 `pos j = pos i` 的 `j`，加上满足 `pos j = pos i + t·v`、`t ≥ 1` 的 `(j, t)`。因为 `v ≠ 0` 且一个周期内的跨度不超过 `P`，`t` 有显式上界。请给出一个可判定的检查函数，并证明它与命题版本等价。参考实现见 `scripts/periodic_words.c` 中的 `consistent`。
+
+2. **主归约定理（关键部分）。**
+
+   ```text
+   theorem periodic_tail_consistent {s : State} {T P : Nat} {v : Point}
+       (hs : FiniteSupport s.board) (hP : 0 < P) (h : HighwayFrom s T P v) :
+       exists U, T <= U ∧ ConsistentWord P (fun i => readColor s (U + i))
+   ```
+
+   直观的证明思路：
+   - 由无界性得 `v ≠ 0`，可用 `escapes_finite_set_after`。
+   - 有限支撑加上远离初始黑格：足够晚之后，读到的颜色等于该格此前被访问次数的奇偶。
+   - 运动周期性：此前的访问都落在周期尾部，并与双向无限周期路径的计数一致，因为访问的时间间隔有界。
+   - 旋转、平移不变性：实际朝向不一定是北，用 `Symmetry.lean` 归一化。
+
+   陈述中的量词、旋转归一化方式可以按你的判断调整，但请在同步文件里写明最终的精确陈述。
+
+3. **小周期的内核结论（可选，视内存而定）。**
+
+   ```text
+   theorem no_consistent_word_small (P : Nat) (h1 : 0 < P) (h2 : P <= P0) (w : Nat -> Bool) :
+       ¬ ConsistentWord P w
+   ```
+
+   用 `decide +kernel` 对有限的 `P0` 枚举。并由此推出推论：任何有限支撑状态都不会最终以周期 `P ≤ P0` 运动。`P0` 取内存允许的最大值即可，比如 12 到 16，请实测后决定。
+
+**约束。**
+
+- 只新建或修改 `PeriodicWord.lean`（需要时可拆成多个 `PeriodicWord*.lean`）、`scripts/PeriodicWordChecks.lean`，并在 `lakefile.toml` 默认目标里加上新模块。不要修改其他已有的 Lean 文件。
+- **内存警告**：这台机器上一次大的 `decide +kernel` 很容易用掉 2 GB 以上，内存曾多次耗尽并拖垮整台机器。重的检查请拆成多个小模块、逐个编译。不要用 `lake build` 去构建 `SingleBlackEarly` 或 `SingleBlackFull`。
+- 不使用 `sorry`、`admit`、`native_decide` 或自定义 `axiom`。有限模拟不能当作无限时间的证明。
+- 每完成一个里程碑，就在 `research/claude-codex-sync.md` 末尾追加：精确陈述、构建命令、耗时、公理审计结果。只追加，不改写别人的条目。
