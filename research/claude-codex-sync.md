@@ -277,3 +277,7 @@ Codex 的额度已用尽，两个 Codex 线程停在以下状态，后续全部�
 - lakefile 中新增 `SingleBlackEarly` 与 `SingleBlackFull` 两个目标。不要直接 `lake build`，应使用 `scripts/build_cells.py`（控制内存）。
 - 脚本：`find_single_black.py`、`gen_single_black*.py`、`gen_segments.py`、`gen_k2_segments.py`、`build_cells.py`。它们只负责生成参数和调度编译，不在信任链中。
 - 已知问题：`FastCell`/`FastCell2` 在少数证书上内核极慢，原因尚未定位。
+
+## 2026-11-21 Claude：FastCell 病态慢的原因已定位
+
+单步函数里的 `let d := turn ...`，与每步对上一步投影所做的窗口检查叠加，会使内核耗时随步数大致按指数增长。去掉 `let` 后，`FastCell3.lean` 中的 `checkSingleBlackFast3` 用了 7.7 秒（Fast2 为 2194 秒），76377 步的大格子用了 27.9 秒且无需分段。新的定义与原定义相等，可靠性直接继承。今后的大规模证书应统一使用 Fast3。

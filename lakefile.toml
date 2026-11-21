@@ -10,7 +10,7 @@ roots = ["LangtonsAnt", "FiniteAnt", "Highway", "HighwayChecker", "StandardHighw
 [[lean_lib]]
 name = "FreshRecovery"
 roots = ["FreshPhaseRecovery", "HardPhaseRecovery", "TrailRetrace", "SingleBlackLate", "SingleBlackCheck",
-  "FastCell", "FastCell2", "SegmentCheck", "TreeBoard", "SingleBlackCover", "Phase49Data",
+  "FastCell", "FastCell2", "FastCell3", "SegmentCheck", "TreeBoard", "SingleBlackCover", "Phase49Data",
   "Phase49P1", "Phase49K1", "Phase49P2", "Phase49K2", "Phase49P3", "Phase49K3", "Phase49Blank"]
 
 # Kernel-checked certificates for the 2215 single black cells visited early by the blank orbit.
