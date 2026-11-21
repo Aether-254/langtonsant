@@ -31,7 +31,19 @@ roots = ["SingleBlackTheorem"]
 [[lean_lib]]
 name = "PeriodicWords"
 moreLeanArgs = ["-M1536", "-DwarningAsError=true"]
-roots = ["PeriodicWordCore", "PeriodicWord", "PeriodicWordReduction", "PeriodicWordEnumeration",
+roots = ["PeriodicWordCore", "PeriodicWord", "PeriodicWordRealizationTrace", "PeriodicWordRealization",
+  "PeriodicWordReduction", "PeriodicWordEnumeration",
   "PeriodicWordCheck8", "PeriodicWordCheck10", "PeriodicWordCheck12A", "PeriodicWordCheck12B",
   "PeriodicWordCheck12C", "PeriodicWordCheck12D", "PeriodicWordCheck12E", "PeriodicWordCheck12F",
   "PeriodicWordCheck12G", "PeriodicWordCheck12H", "PeriodicWordCheck12", "PeriodicWordSmall"]
+
+# Fast consistency checker, compiled to native code so that `native_decide` runs it at native speed.
+[[lean_lib]]
+name = "PeriodicFastLib"
+roots = ["PeriodicWordFast"]
+precompileModules = true
+
+# Exhaustive small-period checks via `native_decide` (trust base includes the Lean compiler).
+[[lean_lib]]
+name = "PeriodicNative"
+globs = ["PeriodicNative.*"]

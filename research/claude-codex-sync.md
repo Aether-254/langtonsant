@@ -367,3 +367,19 @@ theorem no_periodic_tail_small {s : State} {T P : Nat} {v : Point}
 - 新增 Lean 文件的 `sorry`、`admit`、`native_decide`、自定义 `axiom`、`unsafe`、`implemented_by`、`extern` 扫描无命中，`git diff --check` 通过。
 - 最终证明范围：有限支撑正周期尾部在原起点即给出白背景自洽字；全部奇数长度排除；所有 `1 <= P <= 13` 的自洽字及有限支撑最终周期排除；标准 104 位字为正例；纯组合分类条件充分推出 `PeriodicIsStandard`。
 - 尚未证明该组合分类条件本身，也未证明所有自洽字都来自有限支撑实际轨迹。因此这里不声称分类条件与 `PeriodicIsStandard` 等价，不声称一般有限支撑猜想成立。外部 `P=14..36` 的探索结果没有进入证明依赖。
+
+## 2026-11-21 Codex：接手后续工作
+
+- 用户已返回并授权接手；已读取 Claude 项目记忆、当前任务和本记录，当前分支工作区干净。单黑格定理与既有结果的 `ProofAudit.lean` 重新通过。
+- 本轮范围：新增 `PeriodicWordRealization*.lean`，补充 `PeriodicWordReduction.lean`、`scripts/PeriodicWordChecks.lean`、`lakefile.toml` 与 `drafts/proof-status.md`。不修改单黑格的重型计算证书。
+- 目标：证明每个正长度的白背景自洽字均可由有限支撑初态实现，再将组合分类条件与 `PeriodicIsStandard` 连接为等价关系。使用指定读色的辅助轨迹建立有限前缀棋盘，然后证明足够晚的读取都符合真实规则；辅助轨迹本身不被假定为实际运行。
+- 本轮采用符号证明，不需要扩大内核枚举范围或使用 `native_decide`。
+
+## 2026-11-21 Codex：有限实现与双向归约完成
+
+- `PeriodicWordRealizationTrace.lean` 在尚未假定读色合法的指定转向路径上证明周期平移、同相位访问唯一性及完整先前访问列表的排列对应。周期编号 `K >= 2*P` 后，该列表恰好对应自洽定义中的 `priorPhases`。
+- `PeriodicWordRealization.lean` 定义有限前缀翻色棋盘及初态 `wordRealization P w`。`ConsistentWord.realization_run` 证明从该初态开始，实际无限运行与指定路径一致；`ConsistentWord.realizable` 给出有限支撑、从时刻 0 起的周期漂移及逐步精确读色。`wordRealization_support_bound` 用长度 `2*P*P` 的列表覆盖全部初始黑格。前缀构造不被冒充为全白初态的实际运行。
+- `consistentWord_iff_finite_realization` 补齐自洽条件与有限实现的双向关系。`PeriodicWordReduction.lean` 新增 `periodicIsStandard_iff_consistentWordsAreStandard` 及 `highwayConjecture_iff_ballistic_and_consistentWordsAreStandard`。这更新了里程碑 4 的边界：自洽字的有限可实现性已证明，组合分类现在是等价条件；分类本身和全体有限初态的弹道性仍未证明。
+- `scripts/PeriodicWordChecks.lean` 增加 8 项公理审计，共 28 项，均仅依赖 `propext`、`Classical.choice`、`Quot.sound` 的子集。额外检查标准字有限实现的 21632 长度支撑覆盖，以及将输入字在第 104 位之后全部取反仍不改变实现读色。脚本以 `-M1536 -DwarningAsError=true` 运行，退出码 0，耗时约 2.46 s。
+- 默认 `lake build` 成功，共 133 项，耗时约 7.38 s。本轮重新构建两个新增模块及归约模块，其余沿用已验证缓存；没有重跑单黑格重型证书。新模块已经加入 `PeriodicWords` 默认构建目标。
+- `git diff --check` 通过；本轮涉及的 Lean 文件中 `sorry`、`admit`、自定义 `axiom`、`native_decide`、`unsafe`、`implemented_by`、`extern` 扫描无命中。`drafts/proof-status.md` 已记录构造、定理和边界。

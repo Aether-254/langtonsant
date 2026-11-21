@@ -475,10 +475,55 @@ theorem highwayConjecture_of_ballistic_and_consistentWordsAreStandard :
 
 另外 `standard_word_consistent` 验证标准 104 位字本身是自洽字，作为正例检查。
 
+### 扩展到周期 ≤ 33（使用 `native_decide`，2026-11-21 经用户批准）
+
+**[已证明，信任基础扩大]** `PeriodicNative/Small.lean`：
+
+```lean
+theorem no_periodic_tail_native (hs : FiniteSupport s.board) (h1 : 0 < P) (h2 : P <= 33) :
+    ¬ HighwayFrom s T P v
+```
+
+有限支撑状态不可能最终以周期 `P ≤ 33` 做周期运动。
+
+- **周期的覆盖方式**：偶数 2 至 12 沿用纯内核检查；偶数 14 至 32 由 `native_decide` 穷举，拆成 361 个块模块、在本机并行构建（P = 28 至 32 共约 62 分钟）；奇数周期由一般证明排除。
+- **快速检查器**：`PeriodicWordFast.lean` 的 `fastCheck` 把路径一次算入数组，`fastCheck_eq` 证明它与 `checkConsistentWord` 相等；`checkNoWords_of_fastBlocks` 把各块的扫描拼接起来。该模块用 `precompileModules = true` 编译为本机动态库（`PeriodicFastLib`），比解释执行快约 13 倍。
+- **信任基础**：除 `propext`、`Classical.choice`、`Quot.sound` 之外，还依赖 361 个 `native_decide` 公理（`*._native.native_decide.ax_*`），即 Lean 编译器与原生执行的正确性。纯内核结论 `no_periodic_tail_small`（`P ≤ 13`）保持不变，公理仍只有标准三个；单黑格定理等其他结论也不受影响。
+
 **边界。**
 
 - `ConsistentWordsAreStandard` 与 `Ballistic` 都未证明，原猜想仍未解决。
 - 探索程序 `scripts/periodic_words.c` 的有限枚举显示，偶数 `P ≤ 32` 内没有自洽字。这只是探索结果，不进入证明。
+
+## 自洽字的有限初态实现与双向归约（2026-11-21，Codex）
+
+`PeriodicWordRealizationTrace.lean` 和 `PeriodicWordRealization.lean` 补齐逆向：每个正长度的白背景自洽字，都能由显式构造的有限黑格初态实现，且从初始时刻起就具有指定读色和周期漂移。
+
+```lean
+theorem ConsistentWord.realizable (h : ConsistentWord P w) (hP : 0 < P) :
+    exists s : State, FiniteSupport s.board ∧ HighwayFrom s 0 P (wordDrift P w) ∧
+      forall n, readColor s n = w (n % P)
+
+theorem consistentWord_iff_finite_realization (hP : 0 < P) :
+    ConsistentWord P w ↔
+      exists s : State, FiniteSupport s.board ∧ HighwayFrom s 0 P (wordDrift P w) ∧
+        forall n, readColor s n = w (n % P)
+
+theorem periodicIsStandard_iff_consistentWordsAreStandard :
+    PeriodicIsStandard ↔ ConsistentWordsAreStandard
+
+theorem highwayConjecture_iff_ballistic_and_consistentWordsAreStandard :
+    HighwayConjecture ↔
+      (forall s : State, FiniteSupport s.board -> Ballistic s) ∧ ConsistentWordsAreStandard
+```
+
+构造 `wordRealization P w`：先按 `repeatWord P w` 指定的转向走 `2*P` 个周期，在全白棋盘上翻转每个经过的格子，然后把所得棋盘及终点位姿作为初态。构造前缀只是辅助路径，不假定其读色符合蚂蚁规则，也不声称它是从全白初态出发的实际运行。
+
+`repeatWord_visits_phase_perm` 证明，周期编号达到 `2*P` 后，每个相位的全部先前访问按模 `P` 映射，恰为 `priorPhases` 的一个排列。非零漂移保证固定相位不会重复计数；已有重叠界保证更早的访问没有遗漏。结合翻色奇偶及自洽条件，后续每一步都服从真实蚂蚁规则，得到完整无限运行定理 `ConsistentWord.realization_run`。
+
+`wordRealization_support_bound` 给出长度为 `2*P*P` 的列表覆盖初态所有黑格，即黑格数量至多 `2*P^2`；列表可含重复，不声称恰有这么多黑格。初态的位置由构造给出，不强行设为原点。字在前 `P` 位之外的值完全不参与构造。
+
+因此组合分类条件与 `PeriodicIsStandard` 已经等价。如果存在违反该分类条件的自洽字，构造立即给出有限支撑的非标准周期反例；不再存在“自洽字可能无法由有限初态实现”的缺口。所有自洽字的分类及所有有限初态的 `Ballistic` 仍未证明，主猜想仍未解决。此扩展采用符号证明，不使用 `native_decide` 或新的枚举证书。
 
 ## 任意数量且逐个被访问的初始黑格
 

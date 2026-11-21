@@ -1,4 +1,4 @@
-import PeriodicWord
+import PeriodicWordRealization
 import Ballistic
 
 namespace LangtonsAnt
@@ -64,5 +64,28 @@ theorem highwayConjecture_of_ballistic_and_consistentWordsAreStandard
     (hc : ConsistentWordsAreStandard) : HighwayConjecture :=
   highwayConjecture_iff_ballistic_and_periodicIsStandard.mpr
     ⟨hb, consistentWordsAreStandard_implies_periodicIsStandard hc⟩
+
+theorem periodicIsStandard_implies_consistentWordsAreStandard
+    (hc : PeriodicIsStandard) : ConsistentWordsAreStandard := by
+  intro P w hP hw
+  obtain ⟨T, v, _, hstd⟩ := hc (wordRealization P w) (wordRealization_finite P w)
+    ⟨0, P, wordDrift P w, hP, hw.realization_highway hP⟩
+  refine ⟨T % P, Nat.mod_lt _ hP, ?_⟩
+  intro n _
+  have hr := hstd.2 n
+  rw [hw.realization_reads hP, standardColor_eq_certifiedColor] at hr
+  simpa only [Nat.add_mod, Nat.mod_mod] using hr
+
+/-- Consistent words are neither an overapproximation nor an extra hypothesis for classification. -/
+theorem periodicIsStandard_iff_consistentWordsAreStandard :
+    PeriodicIsStandard ↔ ConsistentWordsAreStandard :=
+  ⟨periodicIsStandard_implies_consistentWordsAreStandard,
+    consistentWordsAreStandard_implies_periodicIsStandard⟩
+
+theorem highwayConjecture_iff_ballistic_and_consistentWordsAreStandard :
+    HighwayConjecture ↔
+      (forall s : State, FiniteSupport s.board -> Ballistic s) ∧ ConsistentWordsAreStandard := by
+  rw [highwayConjecture_iff_ballistic_and_periodicIsStandard,
+    periodicIsStandard_iff_consistentWordsAreStandard]
 
 end LangtonsAnt
