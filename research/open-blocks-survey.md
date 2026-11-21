@@ -13,7 +13,7 @@
 
 - 唯一已知的一般动力学定理是无界性：对任意初始构形（不限于有限支撑），轨道无界（Bunimovich–Troubetzkoy 1992；文献中也称 Cohen–Kong 定理，归属说法不一）。仓库中的对应结果是 `escapes_finite_set`。推论：无限次访问的格子集合没有“角”。上述陈述在 Gale–Propp–Sutherland–Troubetzkoy（arXiv math/9501233）、Gajardo–Moreira–Goles（arXiv nlin/0306022）、Gajardo–Lutfalla–Rao（arXiv 2409.10124）中读到；原始 1992 论文未读。
 - 有限支撑的公路猜想在所读全部文献中都被列为开放问题，没有找到对单黑格、弹道性或其任何弱化形式的证明。
-- **白背景公路的唯一性（即 `ConsistentWordsAreStandard`）未在任何所读文献中被处理**，既没有证明也没有反例。因此本仓库“周期 ≤ 33 不存在周期尾部”的结论相对所读文献可能是新的；检索并不穷尽，这一判断仅供参考。
+- **白背景公路的唯一性（即 `ConsistentWordsAreStandard`）未在任何所读文献中被处理**，既没有证明也没有反例。不过后续检索发现了 Research Square 预印本 rs-10516269，其标题与这一子问题高度重合，正文尚未读到。此外，单黑格定理已由 Hao Ke 先行发布，带有 Lean 证明。详见 `research/related-work.md`。在核对这两项之前，不能声称本仓库的相应结论是新的。
 - arXiv 2409.10124 第 2 节断言“有限构形中的周期轨迹必有白色背景”，并引用 Gajardo 的 *Sofic one head machines*（未读）。这与仓库的 `periodic_tail_consistent_at_start` 相对应，仓库已有完整证明。
 - 通用性与公路“种子”的构造（Gajardo–Moreira–Goles）都使用特制的无限背景，不构成有限支撑猜想的反例。
 
