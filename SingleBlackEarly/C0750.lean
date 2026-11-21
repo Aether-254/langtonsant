@@ -1,0 +1,10 @@
+import FastCell2
+
+namespace LangtonsAnt
+
+set_option maxRecDepth 1000000 in
+set_option maxHeartbeats 0 in
+theorem sbCell0750 : checkSingleBlackFast2 (23, -12) 10436 .north (-2, -1) (-26, 1) = true := by
+  decide +kernel
+
+end LangtonsAnt

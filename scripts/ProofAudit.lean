@@ -1,0 +1,265 @@
+import EntranceChecker
+import SeparatedInitialStates
+import DelayedHighway
+import FirstContactDecision
+import CollisionRecovery
+import HighwayRecovery
+import DelayedRecovery
+import MaturePhaseRecovery
+import MultipleObstacles
+import InfiniteHighwayPeriod
+import InfiniteChainLimit
+import SpacedHighwayClassification
+import ExactVariableRecovery
+import FreshObstacleReduction
+import Ballistic
+import TrailRetrace
+import SingleBlackTheorem
+
+#print axioms LangtonsAnt.finiteSupport_run
+#print axioms LangtonsAnt.axisParity_run
+#print axioms LangtonsAnt.same_cell_same_axis
+#print axioms LangtonsAnt.recurrent_not_fixed_color
+#print axioms LangtonsAnt.escapes_finite_set
+#print axioms LangtonsAnt.escapes_finite_set_after
+#print axioms LangtonsAnt.highwayConjecture_implies_period104
+#print axioms LangtonsAnt.FiniteState.toState_run
+#print axioms LangtonsAnt.HighwayCertificate.highway
+#print axioms LangtonsAnt.HighwayCertificate.reads
+#print axioms LangtonsAnt.HighwayCertificate.highway_of_entry
+#print axioms LangtonsAnt.checkCertificate_sound
+#print axioms LangtonsAnt.highwaySeed_check
+#print axioms LangtonsAnt.highwaySeed_highway
+#print axioms LangtonsAnt.highwaySeed_reads
+#print axioms LangtonsAnt.highwaySeed_minimal_read_period
+#print axioms LangtonsAnt.highwaySeed_translated_entry
+#print axioms LangtonsAnt.packedRun_sound
+#print axioms LangtonsAnt.checkPackedEntry_sound
+#print axioms LangtonsAnt.blank_reference_check
+#print axioms LangtonsAnt.blank_entry_check
+#print axioms LangtonsAnt.blank_highway
+#print axioms LangtonsAnt.blank_standard
+#print axioms LangtonsAnt.highwaySeed_standard
+#print axioms LangtonsAnt.standard_highway_of_entry
+#print axioms LangtonsAnt.blank_minimal_read_period
+#print axioms LangtonsAnt.rotate_run
+#print axioms LangtonsAnt.run_coupling
+#print axioms LangtonsAnt.standard_reads_eventually_match
+#print axioms LangtonsAnt.eventuallyStandard_iff_enters
+#print axioms LangtonsAnt.highwayConjecture_iff_entranceConjecture
+#print axioms LangtonsAnt.highwayConjecture_iff_standardTraceConjecture
+#print axioms LangtonsAnt.checkEntry_iff
+#print axioms LangtonsAnt.eventuallyStandard_iff_search
+#print axioms LangtonsAnt.highwayConjecture_iff_detectorEventuallySucceeds
+#print axioms LangtonsAnt.blank_all_bounded
+#print axioms LangtonsAnt.standard_of_white_below
+#print axioms LangtonsAnt.standard_of_separated_black_cells
+#print axioms LangtonsAnt.standard_of_white_in_frame
+#print axioms LangtonsAnt.HighwayFrom.reads_periodic
+#print axioms LangtonsAnt.singleBlack_first_collision
+#print axioms LangtonsAnt.one_black_unbounded_delay
+#print axioms LangtonsAnt.StandardHighwayFrom.of_agreesBelow
+#print axioms LangtonsAnt.run_perturb_avoids
+#print axioms LangtonsAnt.FirstContact.unique
+#print axioms LangtonsAnt.firstContact_state
+#print axioms LangtonsAnt.firstContact_reads
+#print axioms LangtonsAnt.firstContact_opposite_direction
+#print axioms LangtonsAnt.blank_firstContact_reduction
+#print axioms LangtonsAnt.blank_no_contact_after_bound
+#print axioms LangtonsAnt.decideBlankContact_none_iff
+#print axioms LangtonsAnt.decideBlankContact_some_iff
+#print axioms LangtonsAnt.decideBlankContact_none_standard
+#print axioms LangtonsAnt.currentCellFlipStability_implies_arbitrary
+#print axioms LangtonsAnt.highwayConjecture_iff_currentCellFlipStability
+#print axioms LangtonsAnt.singleBlack_origin_standard
+#print axioms LangtonsAnt.flippedHighwaySeed_entry_check
+#print axioms LangtonsAnt.flippedHighwaySeed_bound_check
+#print axioms LangtonsAnt.flippedHighwaySeed_all_bounded
+#print axioms LangtonsAnt.standard_seed_flip_recovers
+#print axioms LangtonsAnt.standard_seed_flip_recovers_of_matches
+#print axioms LangtonsAnt.packedSingleEastRotated_toState
+#print axioms LangtonsAnt.singleBlack_east_entry_check
+#print axioms LangtonsAnt.singleBlack_east_standard
+#print axioms LangtonsAnt.twoPeriod_recovery_entry_check
+#print axioms LangtonsAnt.twoPeriod_recovery_bound_check
+#print axioms LangtonsAnt.twoPeriod_recovery_bounded
+#print axioms LangtonsAnt.highway_flip_recovers_after_two_periods
+#print axioms LangtonsAnt.EntryAt.flip_recovers_after_two_periods
+#print axioms LangtonsAnt.EventuallyStandard.late_flip_recovery
+#print axioms LangtonsAnt.phaseFour_recovery_entry_check
+#print axioms LangtonsAnt.phaseFour_recovery_bound_check
+#print axioms LangtonsAnt.standard_cycle_diagonal_check
+#print axioms LangtonsAnt.phaseFour_first_visit
+#print axioms LangtonsAnt.highway_flip_recovers_at_phase_four
+#print axioms LangtonsAnt.EntryAt.flip_recovers_at_phase_four
+#print axioms LangtonsAnt.delayedObstacle_first_visit
+#print axioms LangtonsAnt.delayedObstacle_contact_state
+#print axioms LangtonsAnt.delayedObstacle_standard
+#print axioms LangtonsAnt.one_black_unbounded_delay_with_recovery
+#print axioms LangtonsAnt.packedBoard_packCells
+#print axioms LangtonsAnt.FiniteState.toPacked_toState
+#print axioms LangtonsAnt.checkPackedBounded_sound
+#print axioms LangtonsAnt.checkRecovery_sound
+#print axioms LangtonsAnt.RecoveryCertificate.after_blocks
+#print axioms LangtonsAnt.RecoveryCertificate.after_entry
+#print axioms LangtonsAnt.mature_phase_five_check
+#print axioms LangtonsAnt.phase_sixty_six_check
+#print axioms LangtonsAnt.phase_ninety_four_check
+#print axioms LangtonsAnt.phase_ninety_five_check
+#print axioms LangtonsAnt.phaseFiveObstacle_first_visit
+#print axioms LangtonsAnt.phaseFiveObstacle_standard
+#print axioms LangtonsAnt.AgreesBelow.run_perturb
+#print axioms LangtonsAnt.chainCollision_check
+#print axioms LangtonsAnt.chain_step
+#print axioms LangtonsAnt.chain_visits
+#print axioms LangtonsAnt.chain_first_visits
+#print axioms LangtonsAnt.chain_standard
+#print axioms LangtonsAnt.multipleObstacles_black
+#print axioms LangtonsAnt.multipleObstacles_finite
+#print axioms LangtonsAnt.multipleObstacles_entry
+#print axioms LangtonsAnt.multipleObstacles_standard
+#print axioms LangtonsAnt.multipleObstacles_visits
+#print axioms LangtonsAnt.multipleObstacles_first_visits
+#print axioms LangtonsAnt.infiniteChainMask_iff
+#print axioms LangtonsAnt.infiniteChain_prefix
+#print axioms LangtonsAnt.infiniteChain_certificate
+#print axioms LangtonsAnt.infiniteObstacles_black
+#print axioms LangtonsAnt.infiniteObstacles_entry
+#print axioms LangtonsAnt.infiniteObstacles_highway
+#print axioms LangtonsAnt.infiniteObstacles_reads
+#print axioms LangtonsAnt.infiniteObstacles_not_finite
+#print axioms LangtonsAnt.highway_horizontal_speeds_compatible
+#print axioms LangtonsAnt.infiniteObstacles_no_period104
+#print axioms LangtonsAnt.infiniteObstacles_not_eventuallyStandard
+#print axioms LangtonsAnt.finiteReadWord_get
+#print axioms LangtonsAnt.obstacleWord_no_short_period
+#print axioms LangtonsAnt.infiniteObstacles_minimal_read_period
+#print axioms LangtonsAnt.infiniteObstacles_no_short_tail
+#print axioms LangtonsAnt.finite_run_coupling
+#print axioms LangtonsAnt.finiteChains_match_infinite_prefix
+#print axioms LangtonsAnt.finiteChains_standard_infiniteChain_nonstandard
+#print axioms LangtonsAnt.standard_diagonal_lower_bound
+#print axioms LangtonsAnt.spacedTail_avoids_standard
+#print axioms LangtonsAnt.spaced_certificate
+#print axioms LangtonsAnt.spacedObstacles_black
+#print axioms LangtonsAnt.spacedObstacles_entry
+#print axioms LangtonsAnt.spacedObstacles_highway
+#print axioms LangtonsAnt.spacedObstacles_reads
+#print axioms LangtonsAnt.spacedObstacles_not_finite
+#print axioms LangtonsAnt.spaced_speeds_injective
+#print axioms LangtonsAnt.spacedObstacles_no_other_spacing
+#print axioms LangtonsAnt.spacedObstacles_no_period104
+#print axioms LangtonsAnt.spacedObstacles_not_eventuallyStandard
+#print axioms LangtonsAnt.spacedObstacles_period_lower_bound
+#print axioms LangtonsAnt.spacedObstacles_unbounded_periods
+#print axioms LangtonsAnt.spacedObstacles_zero
+#print axioms LangtonsAnt.collisionWord_trace_check
+#print axioms LangtonsAnt.obstacleWord_eq_literal
+#print axioms LangtonsAnt.collisionWord_bits_check
+#print axioms LangtonsAnt.standardWord_bits_check
+#print axioms LangtonsAnt.markerAt_iff
+#print axioms LangtonsAnt.checkMarkerLocations_sound
+#print axioms LangtonsAnt.collisionMarker_location_check
+#print axioms LangtonsAnt.collisionMarker_iff
+#print axioms LangtonsAnt.spacedSeed_exact_reads
+#print axioms LangtonsAnt.spacedObstacles_exact_reads
+#print axioms LangtonsAnt.spacedObstacles_marker_iff
+#print axioms LangtonsAnt.spacedObstacles_read_period_dvd
+#print axioms LangtonsAnt.spacedObstacles_read_period_iff
+#print axioms LangtonsAnt.spacedObstacles_highway_period_dvd
+#print axioms LangtonsAnt.spacedObstacles_minimal_read_period
+#print axioms LangtonsAnt.spacedObstacles_no_short_tail
+#print axioms LangtonsAnt.spacedObstacles_exact_minimal_period
+#print axioms LangtonsAnt.HighwayFrom.multiple
+#print axioms LangtonsAnt.spacedObstacles_highway_iff
+#print axioms LangtonsAnt.prependObstacles_decompose
+#print axioms LangtonsAnt.variableBlock_entry
+#print axioms LangtonsAnt.variableBlock_step
+#print axioms LangtonsAnt.aheadMask_blank_entry
+#print axioms LangtonsAnt.variableCells_length
+#print axioms LangtonsAnt.variableCells_distinct
+#print axioms LangtonsAnt.variableMask_standard
+#print axioms LangtonsAnt.variableObstacles_finite
+#print axioms LangtonsAnt.variableObstacles_standard
+#print axioms LangtonsAnt.schedule_entries
+#print axioms LangtonsAnt.scheduledObstacles_black
+#print axioms LangtonsAnt.scheduledObstacles_entries
+#print axioms LangtonsAnt.scheduledObstacles_not_finite
+#print axioms LangtonsAnt.scheduledObstacles_collision_reads
+#print axioms LangtonsAnt.scheduledObstacles_standard_reads
+#print axioms LangtonsAnt.scheduledObstacles_marker
+#print axioms LangtonsAnt.scheduledObstacles_visits
+#print axioms LangtonsAnt.scheduledObstacles_no_read_period
+#print axioms LangtonsAnt.scheduledObstacles_no_highway
+#print axioms LangtonsAnt.growingObstacles_no_read_period
+#print axioms LangtonsAnt.growingObstacles_no_highway
+#print axioms LangtonsAnt.growingObstacles_not_finite
+#print axioms LangtonsAnt.growingObstacles_black
+#print axioms LangtonsAnt.growing_time_formula
+#print axioms LangtonsAnt.finiteSchedule_black
+#print axioms LangtonsAnt.finiteSchedule_standard
+#print axioms LangtonsAnt.finiteSchedules_match_infinite_prefix
+#print axioms LangtonsAnt.growing_finite_truncations_standard
+#print axioms LangtonsAnt.variableBlock_head_first
+#print axioms LangtonsAnt.variableBlock_tail_untouched
+#print axioms LangtonsAnt.finiteSchedule_collision_reads
+#print axioms LangtonsAnt.finiteSchedule_first_visits
+#print axioms LangtonsAnt.scheduledObstacles_first_visits
+#print axioms LangtonsAnt.finiteSchedule_highway_start_lower_bound
+#print axioms LangtonsAnt.finiteSchedule_earliest_highway
+#print axioms LangtonsAnt.finiteSchedule_onsets_unbounded
+#print axioms LangtonsAnt.HighwayFrom.extend_one
+#print axioms LangtonsAnt.HighwayFrom.extend_prefix
+#print axioms LangtonsAnt.recoveryColor_boundary_check
+#print axioms LangtonsAnt.finiteSchedule_last_collision_reads
+#print axioms LangtonsAnt.finiteSchedule_exact_highway_start
+#print axioms LangtonsAnt.recoveryColor_aligned_check
+#print axioms LangtonsAnt.finiteSchedule_earlier_standard
+#print axioms LangtonsAnt.growing_finite_exact_highway_start
+
+#print axioms LangtonsAnt.highwayConjecture_iff_addBlackStability
+#print axioms LangtonsAnt.highwayConjecture_iff_freshObstacleStability
+#print axioms LangtonsAnt.seed_firstVisit_iff
+#print axioms LangtonsAnt.seed_late_cell_white
+#print axioms LangtonsAnt.seed_fresh_phase_classification
+#print axioms LangtonsAnt.RotatedRecoveryCertificate.after_blocks
+#print axioms LangtonsAnt.certified_fresh_phase_recovers
+#print axioms LangtonsAnt.checkShiftedRecovery_sound
+#print axioms LangtonsAnt.fresh_phase_recovers_except_49
+#print axioms LangtonsAnt.memoryKey_mem
+#print axioms LangtonsAnt.finite_list_repeats
+#print axioms LangtonsAnt.memoryKey_future
+#print axioms LangtonsAnt.highwayFrom_of_memoryKey_eq
+#print axioms LangtonsAnt.HighwayFrom.drift_ne_zero
+#print axioms LangtonsAnt.BoundedMemoryFrom.highway
+#print axioms LangtonsAnt.EventuallyBoundedMemory.highway
+#print axioms LangtonsAnt.BallisticFrom.eventually_below
+#print axioms LangtonsAnt.BallisticFrom.avoids_finite
+#print axioms LangtonsAnt.BallisticFrom.boundedMemory
+#print axioms LangtonsAnt.Ballistic.boundedMemory
+#print axioms LangtonsAnt.Ballistic.highway
+#print axioms LangtonsAnt.HighwayFrom.ballisticFrom_of_diagonal
+#print axioms LangtonsAnt.EventuallyStandard.ballistic
+#print axioms LangtonsAnt.highwayConjecture_iff_ballistic_and_periodicIsStandard
+
+#check LangtonsAnt.HighwayConjecture
+#check LangtonsAnt.Period104Conjecture
+#check LangtonsAnt.EntranceConjecture
+#check LangtonsAnt.DetectorEventuallySucceeds
+#check LangtonsAnt.CurrentCellFlipStability
+#check LangtonsAnt.AddBlackStability
+#check LangtonsAnt.FreshObstacleStability
+#check LangtonsAnt.Ballistic
+#check LangtonsAnt.PeriodicIsStandard
+#print axioms LangtonsAnt.StandardHighwayFrom.of_trailAgreement
+#print axioms LangtonsAnt.trail_all_safe
+#print axioms LangtonsAnt.phase_forty_nine_recovers
+#print axioms LangtonsAnt.phase_forty_nine_seed
+#print axioms LangtonsAnt.all_fresh_phases_recover
+-- Single black cell theorem (requires the SingleBlackEarly and SingleBlackFull libraries).
+#print axioms LangtonsAnt.singleBlackAt_standard
+#print axioms LangtonsAnt.singleBlack_standard
+#print axioms LangtonsAnt.singleBlack_late_all
+#print axioms LangtonsAnt.singleBlack_phase49
+#print axioms LangtonsAnt.earlyCells_ok
+#print axioms LangtonsAnt.earlyCells_cover

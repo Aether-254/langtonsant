@@ -1,0 +1,10 @@
+.lake/
+tools/lean-*/
+tools/*.tar.zst
+tools/*.tar
+tools/*.zip
+
+scratch-codex/
+test.txt
+*.olean.tmp
+__pycache__/
