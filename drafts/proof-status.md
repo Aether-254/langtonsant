@@ -523,6 +523,8 @@ theorem UnitDiagonal.consistentWord_not_unitDiagonal' (h : ConsistentWord P w) :
 - **来源**：上述结论属于 Jillhewar（Prop 5.4、Cor 6.5、Thm 7.1、Cor 7.3）与 Ke（`periodic-growth-closure.md` §2），此处只是形式化；证明采用 Ke 的显式模 4 势函数。蓝图见 `research/growth-blueprint-2026-11-22.md`。
 - **边界**：结合单位对角排除，`g = 4` 只剩两格轴向与两格对角两类尚未排除；排除它们后才得到 `g ≥ 8`。所有这些都只是必要条件，不解决 `ConsistentWordsAreStandard`。
 
+**两格轴向漂移（2026-11-22）**：`TwoCellAxial.lean`（纯内核）证明 Ke 的 Theorem B：完整漂移为 `(±2, 0)` 或 `(0, ±2)` 的自洽字满足 `P ≡ 4 (mod 8)` 且 `8 ∣ g`（`ConsistentWord.twoCellAxial_mod_eight`），因而 `g ≠ 4`（`ConsistentWord.twoCellAxial_growth_ne_four`）；轨道形式为 `periodic_tail_twoCellAxial_mod_eight` 与 `periodic_tail_twoCellAxial_growth_ne_four`。核心是运动学秩和恒等式 `K ≡ 1 + P/4 (mod 2)`，由 `PortInversion.lean` 的列表逆序分解实例化到真实后继循环得到。该定理不断言存在任何两格轴向的自洽字。
+
 ### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
 
 **[已证明，信任基础进一步扩大]** `PeriodicNative/Small35.lean`：
