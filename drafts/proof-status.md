@@ -535,6 +535,13 @@ theorem periodic_tail_eight_le_growth (hs : FiniteSupport s.board) (hP : 0 < P)
 
 即每个有限支撑周期尾每周期的黑格净增至少为 8（Ke `periodic-growth-closure.md` 的 Theorem A，数学属于 Jillhewar 与 Ke）。审计脚本：`scripts/GrowthChecks.lean`。这仍只是必要条件，不解决 `ConsistentWordsAreStandard`。
 
+### 对角倍数 `(m, −m)` 的通道局部引理（2026-11-22）
+
+**[已证明，纯内核]** `DiagonalMultipleLanes.lean`。对任意 `m ≥ 1`、完整漂移 `(m, −m)` 的自洽字（**不假设最小周期**），按完整平移类（通道）分开的第一内层入射表满足：相邻通道的首次物理返回关系（`adjacent_lane_second_inner_relation`）；第一内层不能有三个连续通道的入射表同为 `1000`（`no_three_consecutive_1000`）；特例 `m = 2` 时两条通道不能都为 `1000`，`m = 1` 时该表不能为 `1000`。正例检查：旋转到 `(2, −2)` 的标准字两条通道分别为 `001` 与 `1000`。
+
+- **来源**：纸面证明由 GPT-6 Astra 在 `research/persist-B-diagonal-m3-2026-11-22.md` 第 1、9 轮给出，是单位对角证明逐通道的推广；未见于已检索的文献（`research/prior-art-survey-2026-11-22.md`）。
+- **边界**：这是局部禁型，不排除任何 `m`；排除 `m ≥ 3` 仍需全局论证（见该日志）。
+
 ### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
 
 **[已证明，信任基础进一步扩大]** `PeriodicNative/Small35.lean`：
