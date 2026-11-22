@@ -8,9 +8,11 @@ Constraint for each phase i (bit w_i = 1: black read, left turn):
 Positions are one-hot in a bounded box, so UNSAT only means "no such word inside the box".
 Optionally block the cyclic rotations of given words (e.g. the standard 104 word).
 Writes DIMACS with CryptoMiniSat XOR lines.
-usage: python periodic_sat.py P ZMAX UMIN UMAX out.cnf [blockfile] [--free-start]
+usage: python periodic_sat.py P ZMAX UMIN UMAX out.cnf [blockfile] [--free-start] [--plain]
 With --free-start the initial heading is free (it must only equal the final heading); by
 rotation symmetry this covers every orbit whose drift is a diagonal (+-2,+-2).
+With --plain every XOR is expanded into ordinary clauses (chained through auxiliary variables), so
+plain CNF solvers such as CaDiCaL can be used.
 """
 import sys
 
@@ -18,7 +20,8 @@ def main():
     P, ZMAX, UMIN, UMAX, out = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]), sys.argv[5]
     rest = sys.argv[6:]
     free_start = "--free-start" in rest
-    rest = [a for a in rest if a != "--free-start"]
+    plain = "--plain" in rest
+    rest = [a for a in rest if a not in ("--free-start", "--plain")]
     block = open(rest[0]).read().split() if rest else []
     nv = [0]
     def new():
@@ -106,7 +109,24 @@ def main():
         for r in range(P):
             rot = word[r:] + word[:r]
             cls.append([(-W[i] if rot[i] == "1" else W[i]) for i in range(P)])
-    with open(out, "w") as f:
+    def parity_clauses(lits, parity):
+        # forbid every assignment of the literals whose XOR differs from `parity`
+        out_cls = []
+        for m in range(1 << len(lits)):
+            vals = [(m >> k) & 1 for k in range(len(lits))]
+            if sum(vals) % 2 != parity:
+                out_cls.append([(-l if v else l) for l, v in zip(lits, vals)])
+        return out_cls
+    if plain:
+        for x in xors:                       # XOR(x) = true
+            lits = list(x)
+            while len(lits) > 4:
+                a = new()                    # a = l1 xor l2 xor l3
+                cls.extend(parity_clauses(lits[:3] + [a], 0))
+                lits = [a] + lits[3:]
+            cls.extend(parity_clauses(lits, 1))
+        xors = []
+    with open(out, "w", newline="\n") as f:
         f.write(f"p cnf {nv[0]} {len(cls) + len(xors)}\n")
         for c in cls:
             f.write(" ".join(map(str, c)) + " 0\n")
