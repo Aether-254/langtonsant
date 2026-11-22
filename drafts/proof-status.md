@@ -489,6 +489,25 @@ theorem highwayConjecture_of_ballistic_and_consistentWordsAreStandard :
 - 证明在 `prescribedBoard` 上进行（时刻 0 全白，沿重复字翻转），只使用三个事实：首次访问读白；相邻两次访问读色交替；时刻 `2P²` 之后读数与字一致。首达时间用自证的最小元引理加 `Classical.choose` 定义，不依赖 Mathlib。
 - **边界**：这些都是必要条件，并且可能已被更强的已知结果覆盖，例如 Jillhewar 的 `g ≥ 2·max(|a|,|b|)`、宽度排除，以及 Ke 的 `g ≥ 8`（见 `research/related-work.md`）。`100001` 因子与 `P ≥ 4|v|₁` 在已读文献中未见，但检索并不穷尽。
 
+### 单位对角完整漂移排除（Ke 的 `ud:thm:unit`，2026-11-22）
+
+**[已证明，纯内核]** `UnitDiagonal.lean` 及其依赖的九个 `UnitDiagonal*` 模块，均属 `PeriodicWords` 库（`-M1536 -DwarningAsError=true`）。公理只有 `propext`、`Classical.choice`、`Quot.sound`；审计脚本为 `scripts/UnitDiagonalChecks.lean`。
+
+```lean
+theorem UnitDiagonal.no_unit_diagonal_periodic_tail' {s : State} {T P : Nat} {v : Point}
+    (hs : FiniteSupport s.board) (hP : 0 < P) (hv : UnitDiagonalDrift v) :
+    ¬ HighwayFrom s T P v
+
+theorem UnitDiagonal.consistentWord_not_unitDiagonal' (h : ConsistentWord P w) :
+    ¬ UnitDiagonalDrift (wordDrift P w)
+```
+
+其中 `UnitDiagonalDrift v` 指完整单周期位移 `v ∈ {(±1, ±1)}`。不设周期、宽度、增长或种子大小上界，也不要求 `P` 为最小周期。
+
+- **来源**：数学论证属于 Hao Ke（`kehao95/langtons-ant-core`，提交 `b3429c25`，`unit-diagonal.tex` 与 `unit_diagonal_analytic/PROOF.md`），本仓库的贡献仅在于 Lean 形式化。来源核验见 `research/drift-ke-source-audit-2026-11-22.md`，引理蓝图见 `research/unit-diagonal-math-blueprint-2026-11-22.md`。
+- **结构**：`UnitDiagonalReduction` 用循环移位与四分之一转旋转，把轨道形式归约到字形式 `CoreUnitSE`（漂移恰为 `(1, -1)`）。核心证明定义稳定时间 `τ_i = i − P·x_i`，并说明在该漂移下 `priorPhases` 的长度就是层内稳定秩（`UnitDiagonalRank`）。关键引理有三条：首次物理返回使稳定秩恰好加一（`firstReturn_rank`）；有向端口按稳定时间保序匹配（`UnitDiagonalMatching`）；顶层唯一事件为东入、白读、南出（`UnitDiagonalExtremal`）。由此依次确定第一内层端口字为 `1000`、第二内层为 `00001101` 或 `000011010`（`UnitDiagonalWords`、`UnitDiagonalCore`）；第三内层由两次首次返回和两座禁止桥，与二元交错引理 `interleave_bridge` 矛盾（`UnitDiagonalInner`）。
+- **边界**：排除的是完整位移 `(±1, ±1)`，不是约分后的方向；标准公路的完整位移 `(±2, ±2)` 不受影响。本定理只是 `ConsistentWordsAreStandard` 的一条必要排除，不解决该开放块，也不涉及 `PeriodicTail`。更大对角位移 `(±m, ±m)`（`m > 1`）的排除不能照搬本论证（见来源核验第 1 节）。
+
 ### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
 
 **[已证明，信任基础进一步扩大]** `PeriodicNative/Small35.lean`：

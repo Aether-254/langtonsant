@@ -33,7 +33,10 @@ name = "PeriodicWords"
 moreLeanArgs = ["-M1536", "-DwarningAsError=true"]
 roots = ["PeriodicWordCore", "PeriodicWord", "PeriodicWordRealizationTrace", "PeriodicWordRealization",
   "PeriodicWordReduction", "BallisticGeneral", "RecordPair", "RecordSupport", "RecordSupportExamples",
-  "PeriodicBackgroundWord", "DualFrontCountermodel", "AxisClockObstruction", "PeriodicWordEnumeration",
+  "PeriodicBackgroundWord", "DualFrontCountermodel", "AxisClockObstruction",
+  "UnitDiagonalInterleave", "UnitDiagonalPorts", "UnitDiagonalWords", "UnitDiagonalRank",
+  "UnitDiagonalMatching", "UnitDiagonalExtremal", "UnitDiagonalReduction", "UnitDiagonalCore",
+  "UnitDiagonalInner", "UnitDiagonal", "PeriodicWordEnumeration",
   "PeriodicWordCheck8", "PeriodicWordCheck10", "PeriodicWordCheck12A", "PeriodicWordCheck12B",
   "PeriodicWordCheck12C", "PeriodicWordCheck12D", "PeriodicWordCheck12E", "PeriodicWordCheck12F",
   "PeriodicWordCheck12G", "PeriodicWordCheck12H", "PeriodicWordCheck12", "PeriodicWordSmall"]
