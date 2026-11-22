@@ -1,0 +1,62 @@
+[      0s] job 36 3960 136 nproc 4
+[      0s] extracting /kaggle/input/datasets/aether254/lean-ant-bundle/lean-tool.tar.xz
+[     57s] Lean (version 4.36.0, x86_64-unknown-linux-gnu, commit 611c117bfaf7b7ae1cfcf246ce6fba31e8f509e9, Release)
+[     57s] sources verified, commit bbe6e5340c5efb8297d2842552705065110a030d
+[    114s] core build rc 0 ✔ [2/56] Built LangtonsAnt (1.4s)
+✔ [4/56] Built FiniteAnt (1.0s)
+✔ [6/56] Built Highway (1.5s)
+✔ [8/56] Built Symmetry (1.1s)
+✔ [10/56] Built Highway:c.o (1.7s)
+✔ [11/56] Built LangtonsAnt:c.o (3.4s)
+✔ [12/56] Built FiniteAnt:c.o (2.4s)
+✔ [13/56] Built Symmetry:c.o (240ms)
+✔ [14/56] Built HighwayChecker (1.0s)
+✔ [16/56] Built HighwayChecker:c.o (215ms)
+✔ [17/56] Built PackedAnt (1.7s)
+✔ [19/56] Built PackedAnt:c.o (374ms)
+✔ [20/56] Built StandardHighway (8.8s)
+✔ [22/56] Built StandardHighway:c.o (235ms)
+✔ [23/56] Built BlankHighway (32s)
+✔ [25/56] Built BlankHighway:c.o (85ms)
+✔ [26/56] Built TrajectoryCoupling (791ms)
+✔ [28/56] Built TrajectoryCoupling:c.o (97ms)
+✔ [29/56] Built HighwayEntrance (1.1s)
+✔ [31/56] Built HighwayEntrance:c.o (137ms)
+✔ [32/56] Built EntranceChecker (1.1s)
+✔ [34/56] Built DelayedHighway (1.1s)
+✔ [36/56] Built EntranceChecker:c.o (131ms)
+✔ [37/56] Built DelayedHighway:c.o (126ms)
+✔ [38/56] Built FirstContact (819ms)
+✔ [40/56] Built FirstContact:c.o (102ms)
+✔ [41/56] Built SingleFlipReduction (989ms)
+✔ [43/56] Built SingleFlipReduction:c.o (105ms)
+✔ [44/56] Built BoundedMemory (1.8s)
+✔ [46/56] Built BoundedMemory:c.o (237ms)
+✔ [47/56] Built PeriodicWordCore (1.6s)
+✔ [49/56] Built PeriodicWordCore:c.o (239ms)
+✔ [50/56] Built PeriodicWordEnumeration (792ms)
+✔ [52/56] Built PeriodicWordEnumeration:c.o (152ms)
+✔ [53/56] Built Core:shared (59ms)
+✔ [54/56] Built PeriodicWordFast (1.0s)
+Build completed successfully (56 jobs).
+ info: langtonsant: no previous manifest, creating one from scratch
+info: toolchain not updated; already up-to-date
+
+[    497s] batch 3960 - 3967 rc 0 383s done 8 failed 0
+[    858s] batch 3968 - 3975 rc 0 362s done 16 failed 0
+[   1242s] batch 3976 - 3983 rc 0 384s done 24 failed 0
+[   1622s] batch 3984 - 3991 rc 0 380s done 32 failed 0
+[   1984s] batch 3992 - 3999 rc 0 363s done 40 failed 0
+[   2345s] batch 4000 - 4007 rc 0 360s done 48 failed 0
+[   2679s] batch 4008 - 4015 rc 0 335s done 56 failed 0
+[   3027s] batch 4016 - 4023 rc 0 347s done 64 failed 0
+[   3386s] batch 4024 - 4031 rc 0 359s done 72 failed 0
+[   3746s] batch 4032 - 4039 rc 0 360s done 80 failed 0
+[   4081s] batch 4040 - 4047 rc 0 335s done 88 failed 0
+[   4418s] batch 4048 - 4055 rc 0 337s done 96 failed 0
+[   4783s] batch 4056 - 4063 rc 0 365s done 104 failed 0
+[   5143s] batch 4064 - 4071 rc 0 360s done 112 failed 0
+[   5527s] batch 4072 - 4079 rc 0 384s done 120 failed 0
+[   5905s] batch 4080 - 4087 rc 0 377s done 128 failed 0
+[   6261s] batch 4088 - 4095 rc 0 356s done 136 failed 0
+[   6261s] finished: done 136 failed 0 of 136

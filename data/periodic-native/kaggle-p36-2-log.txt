@@ -1,0 +1,158 @@
+[      0s] job 36 2048 1024 nproc 4
+[      0s] extracting /kaggle/input/datasets/aether254/lean-ant-bundle/lean-tool.tar.xz
+[     58s] Lean (version 4.36.0, x86_64-unknown-linux-gnu, commit 611c117bfaf7b7ae1cfcf246ce6fba31e8f509e9, Release)
+[     58s] sources verified, commit bbe6e5340c5efb8297d2842552705065110a030d
+[    121s] core build rc 0 ✔ [2/56] Built LangtonsAnt (1.6s)
+✔ [4/56] Built LangtonsAnt:c.o (501ms)
+✔ [5/56] Built FiniteAnt (1.1s)
+✔ [7/56] Built FiniteAnt:c.o (593ms)
+✔ [8/56] Built Highway (2.2s)
+✔ [10/56] Built Highway:c.o (230ms)
+✔ [11/56] Built HighwayChecker (1.2s)
+✔ [13/56] Built HighwayChecker:c.o (391ms)
+✔ [14/56] Built Symmetry (1.7s)
+✔ [16/56] Built Symmetry:c.o (259ms)
+✔ [17/56] Built PackedAnt (3.0s)
+✔ [19/56] Built PackedAnt:c.o (365ms)
+✔ [20/56] Built StandardHighway (10s)
+✔ [22/56] Built StandardHighway:c.o (300ms)
+✔ [23/56] Built BlankHighway (36s)
+✔ [25/56] Built BlankHighway:c.o (101ms)
+✔ [26/56] Built TrajectoryCoupling (868ms)
+✔ [28/56] Built TrajectoryCoupling:c.o (106ms)
+✔ [29/56] Built HighwayEntrance (1.2s)
+✔ [31/56] Built HighwayEntrance:c.o (108ms)
+✔ [32/56] Built EntranceChecker (1.2s)
+✔ [34/56] Built DelayedHighway (1.2s)
+✔ [36/56] Built EntranceChecker:c.o (204ms)
+✔ [37/56] Built DelayedHighway:c.o (164ms)
+✔ [38/56] Built FirstContact (936ms)
+✔ [40/56] Built FirstContact:c.o (132ms)
+✔ [41/56] Built SingleFlipReduction (1.1s)
+✔ [43/56] Built SingleFlipReduction:c.o (115ms)
+✔ [44/56] Built BoundedMemory (1.0s)
+✔ [46/56] Built BoundedMemory:c.o (273ms)
+✔ [47/56] Built PeriodicWordCore (1.9s)
+✔ [49/56] Built PeriodicWordCore:c.o (299ms)
+✔ [50/56] Built PeriodicWordEnumeration (897ms)
+✔ [52/56] Built PeriodicWordEnumeration:c.o (174ms)
+✔ [53/56] Built Core:shared (70ms)
+✔ [54/56] Built PeriodicWordFast (1.3s)
+Build completed successfully (56 jobs).
+ info: langtonsant: no previous manifest, creating one from scratch
+info: toolchain not updated; already up-to-date
+
+[    488s] batch 2048 - 2055 rc 0 367s done 8 failed 0
+[    877s] batch 2056 - 2063 rc 0 389s done 16 failed 0
+[   1252s] batch 2064 - 2071 rc 0 375s done 24 failed 0
+[   1599s] batch 2072 - 2079 rc 0 347s done 32 failed 0
+[   1944s] batch 2080 - 2087 rc 0 345s done 40 failed 0
+[   2267s] batch 2088 - 2095 rc 0 323s done 48 failed 0
+[   2596s] batch 2096 - 2103 rc 0 329s done 56 failed 0
+[   2952s] batch 2104 - 2111 rc 0 357s done 64 failed 0
+[   3308s] batch 2112 - 2119 rc 0 356s done 72 failed 0
+[   3637s] batch 2120 - 2127 rc 0 329s done 80 failed 0
+[   3969s] batch 2128 - 2135 rc 0 332s done 88 failed 0
+[   4331s] batch 2136 - 2143 rc 0 361s done 96 failed 0
+[   4704s] batch 2144 - 2151 rc 0 373s done 104 failed 0
+[   5096s] batch 2152 - 2159 rc 0 392s done 112 failed 0
+[   5481s] batch 2160 - 2167 rc 0 386s done 120 failed 0
+[   5851s] batch 2168 - 2175 rc 0 370s done 128 failed 0
+[   6239s] batch 2176 - 2183 rc 0 387s done 136 failed 0
+[   6606s] batch 2184 - 2191 rc 0 368s done 144 failed 0
+[   6982s] batch 2192 - 2199 rc 0 375s done 152 failed 0
+[   7374s] batch 2200 - 2207 rc 0 392s done 160 failed 0
+[   7763s] batch 2208 - 2215 rc 0 389s done 168 failed 0
+[   8154s] batch 2216 - 2223 rc 0 391s done 176 failed 0
+[   8541s] batch 2224 - 2231 rc 0 387s done 184 failed 0
+[   8923s] batch 2232 - 2239 rc 0 382s done 192 failed 0
+[   9304s] batch 2240 - 2247 rc 0 381s done 200 failed 0
+[   9691s] batch 2248 - 2255 rc 0 387s done 208 failed 0
+[  10074s] batch 2256 - 2263 rc 0 382s done 216 failed 0
+[  10448s] batch 2264 - 2271 rc 0 374s done 224 failed 0
+[  10820s] batch 2272 - 2279 rc 0 373s done 232 failed 0
+[  11168s] batch 2280 - 2287 rc 0 348s done 240 failed 0
+[  11526s] batch 2288 - 2295 rc 0 358s done 248 failed 0
+[  11909s] batch 2296 - 2303 rc 0 383s done 256 failed 0
+[  12285s] batch 2304 - 2311 rc 0 376s done 264 failed 0
+[  12638s] batch 2312 - 2319 rc 0 353s done 272 failed 0
+[  12997s] batch 2320 - 2327 rc 0 360s done 280 failed 0
+[  13379s] batch 2328 - 2335 rc 0 382s done 288 failed 0
+[  13762s] batch 2336 - 2343 rc 0 383s done 296 failed 0
+[  14152s] batch 2344 - 2351 rc 0 390s done 304 failed 0
+[  14540s] batch 2352 - 2359 rc 0 388s done 312 failed 0
+[  14918s] batch 2360 - 2367 rc 0 378s done 320 failed 0
+[  15295s] batch 2368 - 2375 rc 0 377s done 328 failed 0
+[  15681s] batch 2376 - 2383 rc 0 386s done 336 failed 0
+[  16065s] batch 2384 - 2391 rc 0 384s done 344 failed 0
+[  16440s] batch 2392 - 2399 rc 0 375s done 352 failed 0
+[  16815s] batch 2400 - 2407 rc 0 376s done 360 failed 0
+[  17165s] batch 2408 - 2415 rc 0 349s done 368 failed 0
+[  17522s] batch 2416 - 2423 rc 0 358s done 376 failed 0
+[  17898s] batch 2424 - 2431 rc 0 376s done 384 failed 0
+[  18246s] batch 2432 - 2439 rc 0 347s done 392 failed 0
+[  18619s] batch 2440 - 2447 rc 0 373s done 400 failed 0
+[  18991s] batch 2448 - 2455 rc 0 372s done 408 failed 0
+[  19339s] batch 2456 - 2463 rc 0 347s done 416 failed 0
+[  19680s] batch 2464 - 2471 rc 0 341s done 424 failed 0
+[  19999s] batch 2472 - 2479 rc 0 319s done 432 failed 0
+[  20323s] batch 2480 - 2487 rc 0 324s done 440 failed 0
+[  20667s] batch 2488 - 2495 rc 0 344s done 448 failed 0
+[  21011s] batch 2496 - 2503 rc 0 344s done 456 failed 0
+[  21333s] batch 2504 - 2511 rc 0 322s done 464 failed 0
+[  21661s] batch 2512 - 2519 rc 0 328s done 472 failed 0
+[  22014s] batch 2520 - 2527 rc 0 353s done 480 failed 0
+[  22372s] batch 2528 - 2535 rc 0 358s done 488 failed 0
+[  22752s] batch 2536 - 2543 rc 0 379s done 496 failed 0
+[  23126s] batch 2544 - 2551 rc 0 374s done 504 failed 0
+[  23475s] batch 2552 - 2559 rc 0 349s done 512 failed 0
+[  23815s] batch 2560 - 2567 rc 0 341s done 520 failed 0
+[  24135s] batch 2568 - 2575 rc 0 319s done 528 failed 0
+[  24458s] batch 2576 - 2583 rc 0 323s done 536 failed 0
+[  24808s] batch 2584 - 2591 rc 0 350s done 544 failed 0
+[  25162s] batch 2592 - 2599 rc 0 354s done 552 failed 0
+[  25538s] batch 2600 - 2607 rc 0 376s done 560 failed 0
+[  25908s] batch 2608 - 2615 rc 0 370s done 568 failed 0
+[  26252s] batch 2616 - 2623 rc 0 345s done 576 failed 0
+[  26596s] batch 2624 - 2631 rc 0 344s done 584 failed 0
+[  26970s] batch 2632 - 2639 rc 0 373s done 592 failed 0
+[  27342s] batch 2640 - 2647 rc 0 373s done 600 failed 0
+[  27684s] batch 2648 - 2655 rc 0 342s done 608 failed 0
+[  28022s] batch 2656 - 2663 rc 0 338s done 616 failed 0
+[  28340s] batch 2664 - 2671 rc 0 318s done 624 failed 0
+[  28657s] batch 2672 - 2679 rc 0 317s done 632 failed 0
+[  28996s] batch 2680 - 2687 rc 0 340s done 640 failed 0
+[  29315s] batch 2688 - 2695 rc 0 319s done 648 failed 0
+[  29659s] batch 2696 - 2703 rc 0 343s done 656 failed 0
+[  29998s] batch 2704 - 2711 rc 0 340s done 664 failed 0
+[  30312s] batch 2712 - 2719 rc 0 314s done 672 failed 0
+[  30632s] batch 2720 - 2727 rc 0 320s done 680 failed 0
+[  30936s] batch 2728 - 2735 rc 0 304s done 688 failed 0
+[  31242s] batch 2736 - 2743 rc 0 305s done 696 failed 0
+[  31558s] batch 2744 - 2751 rc 0 317s done 704 failed 0
+[  31875s] batch 2752 - 2759 rc 0 317s done 712 failed 0
+[  32177s] batch 2760 - 2767 rc 0 303s done 720 failed 0
+[  32483s] batch 2768 - 2775 rc 0 306s done 728 failed 0
+[  32806s] batch 2776 - 2783 rc 0 323s done 736 failed 0
+[  33126s] batch 2784 - 2791 rc 0 320s done 744 failed 0
+[  33476s] batch 2792 - 2799 rc 0 350s done 752 failed 0
+[  33816s] batch 2800 - 2807 rc 0 340s done 760 failed 0
+[  34134s] batch 2808 - 2815 rc 0 318s done 768 failed 0
+[  34456s] batch 2816 - 2823 rc 0 322s done 776 failed 0
+[  34808s] batch 2824 - 2831 rc 0 352s done 784 failed 0
+[  35148s] batch 2832 - 2839 rc 0 340s done 792 failed 0
+[  35463s] batch 2840 - 2847 rc 0 316s done 800 failed 0
+[  35779s] batch 2848 - 2855 rc 0 316s done 808 failed 0
+[  36081s] batch 2856 - 2863 rc 0 302s done 816 failed 0
+[  36385s] batch 2864 - 2871 rc 0 304s done 824 failed 0
+[  36705s] batch 2872 - 2879 rc 0 320s done 832 failed 0
+[  37026s] batch 2880 - 2887 rc 0 321s done 840 failed 0
+[  37331s] batch 2888 - 2895 rc 0 305s done 848 failed 0
+[  37638s] batch 2896 - 2903 rc 0 308s done 856 failed 0
+[  37970s] batch 2904 - 2911 rc 0 331s done 864 failed 0
+[  38296s] batch 2912 - 2919 rc 0 326s done 872 failed 0
+[  38653s] batch 2920 - 2927 rc 0 357s done 880 failed 0
+[  39004s] batch 2928 - 2935 rc 0 351s done 888 failed 0
+[  39326s] batch 2936 - 2943 rc 0 321s done 896 failed 0
+[  39326s] stopping for time; left 274 need 509
+[  39326s] finished: done 896 failed 0 of 1024
