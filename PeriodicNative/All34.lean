@@ -1026,6 +1026,7 @@ import PeriodicNative.P34B1023
 
 namespace LangtonsAnt
 
+set_option maxRecDepth 100000 in
 theorem checkNoWords_native_34 : checkNoWords 34 = true := by
   apply checkNoWords_of_fastBlocks (width := 16777216) (blocks := 1024) (by decide) (by decide)
   intro k hk

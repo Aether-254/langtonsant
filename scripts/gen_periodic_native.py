@@ -23,6 +23,7 @@ def main():
                 f"end LangtonsAnt\n")
         lines = ["import PeriodicWordFast"] + [f"import PeriodicNative.P{P}B{k}" for k in range(blocks)]
         lines += ["", "namespace LangtonsAnt", "",
+                  *(["set_option maxRecDepth 100000 in"] if blocks > 256 else []),
                   f"theorem checkNoWords_native_{P} : checkNoWords {P} = true := by",
                   f"  apply checkNoWords_of_fastBlocks (width := {W}) (blocks := {blocks}) (by decide) (by decide)",
                   "  intro k hk",

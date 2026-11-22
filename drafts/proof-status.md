@@ -475,6 +475,24 @@ theorem highwayConjecture_of_ballistic_and_consistentWordsAreStandard :
 
 另外 `standard_word_consistent` 验证标准 104 位字本身是自洽字，作为正例检查。
 
+### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
+
+**[已证明，信任基础进一步扩大]** `PeriodicNative/Small35.lean`：
+
+```lean
+theorem no_periodic_tail_native35 (hs : FiniteSupport s.board) (h1 : 0 < P) (h2 : P <= 35) :
+    ¬ HighwayFrom s T P v
+```
+
+- **块的计算**：P = 34 的 1024 个块（`PeriodicNative/P34B*.lean`，`fastScan 34 2^24 (2^24·k)`）由 Kaggle 云端的 CPU 实例计算。
+  - 环境：Linux 版 Lean 4.36.0 工具链；源文件与 commit `bbe6e53` 一致，运行前在云端逐个校验了 SHA-256。
+  - 结果：1024 块全部通过、0 失败，用时约 6.5 小时。
+  - 记录：日志、汇总与 1024 个 olean 的 SHA-256 存于 `data/periodic-native/`。
+- **装配方式**：olean 下载后放入 `.lake/build/lib/lean/PeriodicNative/`，在本机用 `lean` 直接编译 `All34.lean` 与 `Small35.lean`。不要对 `PeriodicNative.P34B*` 运行 `lake build`，否则会在本机重算（约 20 核时）。
+- **信任基础**：除 `Small.lean` 已有的部分外，又增加了 1024 个 `native_decide` 公理。这些公理由 Kaggle 上运行的 Lean 编译器与原生代码产生，因此还需要信任该机器如实执行了计算。任何人都可以按 `scripts/kaggle_make_kernel.py` 或 `scripts/gen_periodic_native.py` 重算。
+- **公理审计**：`propext`、`Classical.choice`、`Quot.sound`，加上 1385 个 `*._native.native_decide.ax_*`，没有其他公理。
+- **与已有工作的关系**：Jillhewar 的预印本已用非形式化的穷举排除了周期 ≤ 48（见 `research/related-work.md`），因此本结果的意义仅在于它是 Lean 检查的。
+
 ### 任意漂移的周期尾部是弹道的（2026-11-21）
 
 **[已证明，纯内核]** `BallisticGeneral.lean`：`HighwayFrom.ballisticFrom_of_pos` 对任意正周期、任意（必然非零的）漂移给出显式弹道常数（速度 `|v|²/P`，回退界 `P·|v|₁+|v|²`）。由此，有限支撑下 `Ballistic s ↔ PeriodicTail s ↔ EventuallyBoundedMemory s`，并且
