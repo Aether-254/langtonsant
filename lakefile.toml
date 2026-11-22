@@ -32,7 +32,7 @@ roots = ["SingleBlackTheorem"]
 name = "PeriodicWords"
 moreLeanArgs = ["-M1536", "-DwarningAsError=true"]
 roots = ["PeriodicWordCore", "PeriodicWord", "PeriodicWordRealizationTrace", "PeriodicWordRealization",
-  "PeriodicWordReduction", "BallisticGeneral", "PeriodicWordEnumeration",
+  "PeriodicWordReduction", "BallisticGeneral", "RecordPair", "PeriodicWordEnumeration",
   "PeriodicWordCheck8", "PeriodicWordCheck10", "PeriodicWordCheck12A", "PeriodicWordCheck12B",
   "PeriodicWordCheck12C", "PeriodicWordCheck12D", "PeriodicWordCheck12E", "PeriodicWordCheck12F",
   "PeriodicWordCheck12G", "PeriodicWordCheck12H", "PeriodicWordCheck12", "PeriodicWordSmall"]
