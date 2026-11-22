@@ -1,0 +1,17 @@
+import PeriodicGrowth
+
+open LangtonsAnt
+
+#print axioms LangtonsAnt.ConsistentWord.growth_eq_turn_balance
+#print axioms LangtonsAnt.HighwayFrom.net_black_growth
+#print axioms LangtonsAnt.ConsistentWord.four_dvd_growth
+#print axioms LangtonsAnt.ConsistentWord.two_mul_driftInf_le_growth
+#print axioms LangtonsAnt.ConsistentWord.growth_four_drift_trichotomy
+#print axioms LangtonsAnt.standard_word_growth
+#print axioms LangtonsAnt.ConsistentWord.twoCellAxial_mod_eight
+#print axioms LangtonsAnt.ConsistentWord.twoCellAxial_growth_ne_four
+#print axioms LangtonsAnt.ConsistentWord.twoCellDiagonal_growth_ne_four
+#print axioms LangtonsAnt.ConsistentWord.twoCellDiagonal_checker_mixed
+#print axioms LangtonsAnt.ConsistentWord.growth_ne_four
+#print axioms LangtonsAnt.ConsistentWord.eight_le_growth
+#print axioms LangtonsAnt.periodic_tail_eight_le_growth

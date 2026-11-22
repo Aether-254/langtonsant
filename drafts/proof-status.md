@@ -525,6 +525,16 @@ theorem UnitDiagonal.consistentWord_not_unitDiagonal' (h : ConsistentWord P w) :
 
 **两格轴向漂移（2026-11-22）**：`TwoCellAxial.lean`（纯内核）证明 Ke 的 Theorem B：完整漂移为 `(±2, 0)` 或 `(0, ±2)` 的自洽字满足 `P ≡ 4 (mod 8)` 且 `8 ∣ g`（`ConsistentWord.twoCellAxial_mod_eight`），因而 `g ≠ 4`（`ConsistentWord.twoCellAxial_growth_ne_four`）；轨道形式为 `periodic_tail_twoCellAxial_mod_eight` 与 `periodic_tail_twoCellAxial_growth_ne_four`。核心是运动学秩和恒等式 `K ≡ 1 + P/4 (mod 2)`，由 `PortInversion.lean` 的列表逆序分解实例化到真实后继循环得到。该定理不断言存在任何两格轴向的自洽字。
 
+**两格对角漂移与 `g ≥ 8`（2026-11-22）**：`TwoCellDiagonalParity`、`TwoCellDiagonalGadget`、`TwoCellDiagonalRank`、`TwoCellDiagonal`（纯内核）证明两格对角完整漂移 `(±2, ±2)` 的自洽字 `g ≠ 4`，并给出 Ke 的 Theorem C：奇重数类中两种棋盘符号各至少两个（`ConsistentWord.twoCellDiagonal_checker_mixed`；标准字为 `(4, 8)` 或 `(8, 4)`，取决于相位）。`PeriodicGrowth.lean` 汇合三支排除，得到
+
+```lean
+theorem ConsistentWord.eight_le_growth (h : ConsistentWord P w) : 8 ≤ wordGrowth P w
+theorem periodic_tail_eight_le_growth (hs : FiniteSupport s.board) (hP : 0 < P)
+    (h : HighwayFrom s T P v) : 8 ≤ wordGrowth P (fun i => readColor s (T + i))
+```
+
+即每个有限支撑周期尾每周期的黑格净增至少为 8（Ke `periodic-growth-closure.md` 的 Theorem A，数学属于 Jillhewar 与 Ke）。审计脚本：`scripts/GrowthChecks.lean`。这仍只是必要条件，不解决 `ConsistentWordsAreStandard`。
+
 ### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
 
 **[已证明，信任基础进一步扩大]** `PeriodicNative/Small35.lean`：
