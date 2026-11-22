@@ -508,6 +508,21 @@ theorem UnitDiagonal.consistentWord_not_unitDiagonal' (h : ConsistentWord P w) :
 - **结构**：`UnitDiagonalReduction` 用循环移位与四分之一转旋转，把轨道形式归约到字形式 `CoreUnitSE`（漂移恰为 `(1, -1)`）。核心证明定义稳定时间 `τ_i = i − P·x_i`，并说明在该漂移下 `priorPhases` 的长度就是层内稳定秩（`UnitDiagonalRank`）。关键引理有三条：首次物理返回使稳定秩恰好加一（`firstReturn_rank`）；有向端口按稳定时间保序匹配（`UnitDiagonalMatching`）；顶层唯一事件为东入、白读、南出（`UnitDiagonalExtremal`）。由此依次确定第一内层端口字为 `1000`、第二内层为 `00001101` 或 `000011010`（`UnitDiagonalWords`、`UnitDiagonalCore`）；第三内层由两次首次返回和两座禁止桥，与二元交错引理 `interleave_bridge` 矛盾（`UnitDiagonalInner`）。
 - **边界**：排除的是完整位移 `(±1, ±1)`，不是约分后的方向；标准公路的完整位移 `(±2, ±2)` 不受影响。本定理只是 `ConsistentWordsAreStandard` 的一条必要排除，不解决该开放块，也不涉及 `PeriodicTail`。更大对角位移 `(±m, ±m)`（`m > 1`）的排除不能照搬本论证（见来源核验第 1 节）。
 
+### 周期尾部的增长量：`4 ∣ g`、`g ≥ 2·max(|a|,|b|)` 与 `g = 4` 三分法（2026-11-22）
+
+**[已证明，纯内核]** `PeriodicGrowthResidue.lean`（依赖 `DriftRank.lean` 的一般漂移稳定秩工具），公理只有 `propext`、`Classical.choice`、`Quot.sound`。
+
+增长量 `wordGrowth P w` 定义为：在每个完整平移类中取稳定秩为 0 的相位作代表，统计访问重数为奇数的类数。已证明：
+
+- `ConsistentWord.growth_eq_turn_balance`：`g = #R − #L`；`HighwayFrom.net_black_growth`：对有限支撑周期尾，`g` 等于每周期黑格的净增量。
+- `ConsistentWord.four_dvd_growth`：`4 ∣ g`；`ConsistentWord.growth_pos`、`four_le_growth`：`g ≥ 4`。
+- `ConsistentWord.two_mul_driftInf_le_growth`：`2·max(|a|,|b|) ≤ g`，其中 `(a,b)` 为完整漂移；轨道形式为 `periodic_tail_growth_bounds`。
+- `ConsistentWord.growth_four_drift_trichotomy`：若 `g = 4`，完整漂移只能是单位对角、两格轴向或两格对角（共 12 个向量，`growth_four_drift_vectors`）。
+- 正例检查：标准 104 步字 `g = 12`（`standard_word_growth`，经 `#R − #L` 的内核计算得到）。
+
+- **来源**：上述结论属于 Jillhewar（Prop 5.4、Cor 6.5、Thm 7.1、Cor 7.3）与 Ke（`periodic-growth-closure.md` §2），此处只是形式化；证明采用 Ke 的显式模 4 势函数。蓝图见 `research/growth-blueprint-2026-11-22.md`。
+- **边界**：结合单位对角排除，`g = 4` 只剩两格轴向与两格对角两类尚未排除；排除它们后才得到 `g ≥ 8`。所有这些都只是必要条件，不解决 `ConsistentWordsAreStandard`。
+
 ### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
 
 **[已证明，信任基础进一步扩大]** `PeriodicNative/Small35.lean`：

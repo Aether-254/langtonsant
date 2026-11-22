@@ -36,7 +36,7 @@ roots = ["PeriodicWordCore", "PeriodicWord", "PeriodicWordRealizationTrace", "Pe
   "PeriodicBackgroundWord", "DualFrontCountermodel", "AxisClockObstruction",
   "UnitDiagonalInterleave", "UnitDiagonalPorts", "UnitDiagonalWords", "UnitDiagonalRank",
   "UnitDiagonalMatching", "UnitDiagonalExtremal", "UnitDiagonalReduction", "UnitDiagonalCore",
-  "UnitDiagonalInner", "UnitDiagonal", "DriftRank", "PeriodicWordEnumeration",
+  "UnitDiagonalInner", "UnitDiagonal", "DriftRank", "PeriodicGrowthResidue", "PeriodicWordEnumeration",
   "PeriodicWordCheck8", "PeriodicWordCheck10", "PeriodicWordCheck12A", "PeriodicWordCheck12B",
   "PeriodicWordCheck12C", "PeriodicWordCheck12D", "PeriodicWordCheck12E", "PeriodicWordCheck12F",
   "PeriodicWordCheck12G", "PeriodicWordCheck12H", "PeriodicWordCheck12", "PeriodicWordSmall"]
