@@ -475,6 +475,20 @@ theorem highwayConjecture_of_ballistic_and_consistentWordsAreStandard :
 
 另外 `standard_word_consistent` 验证标准 104 位字本身是自洽字，作为正例检查。
 
+### 前沿记录对（2026-11-22）
+
+**[已证明，纯内核]** `RecordPair.lean`，公理只有 `propext`、`Classical.choice`、`Quot.sound`。
+
+设自洽字的漂移为 `v = (a, b)`。取 `f = s₁x + s₂y`，其中 `sᵢ = ±1` 使 `f(v) = |a| + |b| > 0`。称 `n` 为记录时刻，若 `f(pos n)` 严格大于此前所有时刻的值。
+
+- `record_pair`：在“对起点”（到达方向右转后仍使 `f` 增加的记录时刻 `m+1`），读数 `m, …, m+5` 必为 `1 0 0 0 0 1`；路径绕一个单位方格闭合（`pos(m+4) = pos m`，`pos(m+5) = pos(m+1)`）；各时刻的层依次为 `L, L+1, L, L−1, L, L−1`。
+- 对起点每隔一层出现一次，相邻两个至少相隔 8 步；一个周期使首达时间恰好增加 `P`，层数增加 `f(v)`。由此得到：
+  - `ConsistentWord.four_mul_driftL1_le`：`4(|a| + |b|) ≤ P`；
+  - `ConsistentWord.front_factor`：每个自洽字都含循环因子 `100001`；
+  - `periodic_tail_record_data`：以上两条对有限支撑轨道的周期尾部同样成立，这里的漂移是原坐标系中的漂移。
+- 证明在 `prescribedBoard` 上进行（时刻 0 全白，沿重复字翻转），只使用三个事实：首次访问读白；相邻两次访问读色交替；时刻 `2P²` 之后读数与字一致。首达时间用自证的最小元引理加 `Classical.choose` 定义，不依赖 Mathlib。
+- **边界**：这些都是必要条件，并且可能已被更强的已知结果覆盖，例如 Jillhewar 的 `g ≥ 2·max(|a|,|b|)`、宽度排除，以及 Ke 的 `g ≥ 8`（见 `research/related-work.md`）。`100001` 因子与 `P ≥ 4|v|₁` 在已读文献中未见，但检索并不穷尽。
+
 ### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
 
 **[已证明，信任基础进一步扩大]** `PeriodicNative/Small35.lean`：

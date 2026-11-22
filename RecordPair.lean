@@ -624,4 +624,48 @@ theorem ConsistentWord.front_factor {P : Nat} {w : Nat -> Bool} (h : ConsistentW
   · rw [Nat.mod_add_mod]; exact h4
   · rw [Nat.mod_add_mod]; exact h5
 
+/-! ## Consequences for finite-support periodic tails -/
+
+theorem driftL1_rotatePoint (r : Direction) (p : Point) :
+    driftL1 (rotatePoint r p) = driftL1 p := by
+  cases r <;> simp [rotatePoint, driftL1] <;> omega
+
+/-- **Orbit form.** A finite-support orbit with a periodic tail of period `P` and drift `v` has
+`4 (|v₁| + |v₂|) ≤ P`, and its cyclic read word over one period contains `1 0 0 0 0 1`. -/
+theorem periodic_tail_record_data {s : State} {T P : Nat} {v : Point}
+    (hs : FiniteSupport s.board) (hP : 0 < P) (h : HighwayFrom s T P v) :
+    4 * driftL1 v <= P ∧
+      exists i, i < P ∧ readColor s (T + i) = true ∧
+        readColor s (T + (i + 1) % P) = false ∧ readColor s (T + (i + 2) % P) = false ∧
+        readColor s (T + (i + 3) % P) = false ∧ readColor s (T + (i + 4) % P) = false ∧
+        readColor s (T + (i + 5) % P) = true := by
+  have hc := periodic_tail_consistent_at_start hs hP h
+  let t := run s T
+  let u := normalize t.dir t.pos t
+  have ht : HighwayFrom t 0 P v := by
+    intro n _
+    have hh := h (T + n) (by omega)
+    simpa only [t, ← run_add, Nat.add_assoc] using hh
+  have hu : HighwayFrom u 0 P (rotatePoint (inverseRotation t.dir) v) :=
+    (ht.translate (negPoint t.pos)).rotate (inverseRotation t.dir)
+  have hup : u.pos = (0, 0) := by
+    have hz : addPoint (negPoint t.pos) t.pos = (0, 0) := by
+      apply Prod.ext <;> simp only [addPoint, negPoint] <;> omega
+    change rotatePoint (inverseRotation t.dir) (addPoint (negPoint t.pos) t.pos) = _
+    rw [hz, rotatePoint_zero]
+  have hud : u.dir = .north := by
+    change rotateDir (inverseRotation t.dir) t.dir = .north
+    have he := rotateDir_inverse t.dir .north
+    simpa only [rotateDir_north] using he
+  have hr : readColor u = fun i => readColor s (T + i) := by
+    funext i
+    rw [show readColor u i = readColor t i from normalize_readColor t.dir t.pos t i]
+    simp only [t, readColor, run_add]
+  have hdrift := hu.word_drift hup hud
+  rw [hr] at hdrift
+  have hbound := hc.four_mul_driftL1_le hP
+  rw [hdrift, driftL1_rotatePoint] at hbound
+  obtain ⟨i, hi, h0, h1, h2, h3, h4, h5⟩ := hc.front_factor hP
+  exact ⟨hbound, i, hi, h0, h1, h2, h3, h4, h5⟩
+
 end LangtonsAnt
