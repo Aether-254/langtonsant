@@ -683,6 +683,19 @@ D_t = 4 · Σ_{s=t}^{T−1} f_s − P · Σ_{s=t}^{T−1} (−1)^s f_s
 - **来源**：纸面论证为 GPT-6 Astra（`research/persist-C-periodic-tail-2026-11-23.md` 第 3 轮）；Lean 证明由 GPT-6 Astra 完成，用刚体回返直接排除重复后缀，绕开了纸面的“抽象预测器循环”。
 - **边界**：这不证明窗口外黑读稀疏（C-M），也不证明最终周期性。
 
+### 方向进度预算（C 第 2 会话；2026-11-23）
+
+**[已证明，纯内核]** `DirectionalBudget.lean`。对任意有限状态、任意每步变化不超过 1 的整数投影 `f`（`UnitProjection`，如 `f(x, y) = x`）和块长 `L ≥ 1`，令 `h_k = f(p_{kL})`、`d_k = max(0, 1 − (h_{k+1} − h_k))`、`D_K = Σ_{k<K} d_k`、`W = L(4L + 2)`：
+
+```text
+E_W(N) ≤ |B_0| + 2L · D_{⌈N/L⌉}
+```
+
+（`directional_budget`；`E_W(N) = missCount s W W (N − W)`，`|B_0|` 为初始黑格集的实际基数）。另有从时间 0 统计全部失配的更强版本。推论 `sublinear_of_defect`：若某个固定方向与尺度上 `D_K = o(K)`，则 `E_W(N) = o(N)`（`o(·)` 以“对每个 `q > 0` 最终 `q·a(N) ≤ N`”表述）。
+
+- **来源**：纸面论证为 GPT-6 Astra（C 日志第 2 会话）；Lean 证明由 GPT-6 Astra 完成，审读未发现需要加强的假设。
+- **边界**：没有证明一般有限初态存在使 `D_K = o(K)` 的方向与尺度；该前提即使成立，也只推出 C-M。
+
 ### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
 
 **[已证明，信任基础进一步扩大]** `PeriodicNative/Small35.lean`：
