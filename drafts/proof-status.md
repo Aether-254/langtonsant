@@ -591,6 +591,18 @@ theorem periodic_tail_eight_le_growth (hs : FiniteSupport s.board) (hP : 0 < P)
 - **来源**：纸面论证为 GPT-6 Astra（`research/persist-B-diagonal-m3-2026-11-22.md` 第 18 轮）；Lean 证明由 GPT-6 Astra 完成，并补出了纸面中略过的朝向恢复。
 - **推论**：任何完整漂移 `(3, −3)`（或任意奇数倍、任意素数倍）的自洽字都直接是目标 B 的反例，无需另加最小周期假设；目标 B 等价于：任意完整漂移 `(m, −m)` 自洽字的最小根，其漂移倍数恰为 2（单位倍数已排除）。这是等价改写，不是目标 B 的证明。
 
+### `(2, −2)` 的共同时间坐标与秩间隔展开（2026-11-23）
+
+**[已证明，纯内核]** `WidthLemmas.lean`。对完整漂移 `(2, −2)`，定义两条通道共用的时间坐标 `η(i) = 2i − P·x_i`：
+
+- `eta_eq_stableTime`：`η = 2τ − P·(x mod 2)`，通道间偏移保留；`path_eta_difference`：任意长度的连续相位路径（可跨多个周期接缝）满足 `Δη = 2·len − P·Δx`。
+- `eta_gap_ge_eight` / `adjacent_rankEta_gap`：同类相邻秩的 `η` 间隔是正的 8 的倍数。
+- `boundary_rank_gap_expansion`：通道的带符号边界时间 `Σ charge·η`（向下直穿 `+1`、向上直穿 `−1`、反弹 `0`）按秩做分部求和后的精确展开，末项保留；`chargePrefix_full_eq_counts` 把末项系数还原为实际端口计数。
+- 标准字数据（`decide +kernel`）：例如 `(6, true)` 秩 2→3 的间隔为 232，大于 `2·104`，说明不能假设间隔小于两个周期。
+
+- **来源**：A 日志（`research/persist-A-width-2026-11-22.md`）第 36、37 轮，GPT-6 Astra；Lean 证明由 GPT-6 Astra 完成。
+- **边界**：第 36 轮的完整切口求和式、第 33–35 轮的游程与缺陷计数仍未形式化；不给出宽度上界。
+
 ### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
 
 **[已证明，信任基础进一步扩大]** `PeriodicNative/Small35.lean`：
