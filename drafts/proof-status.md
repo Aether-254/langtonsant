@@ -639,6 +639,14 @@ ConsistentWord P w  ⟺  对 U 访问过的 p：T_V(p+d) = a_U(p) ⊕ T_U(p+2d)�
 
 （`consistentWord_iff_sharedBoundary`；`T` 为沿 `p + 2jd` 半线的访问重数模 2，`Block.T_eq_finite_sum`）。标准字在 `cut = 90` 处两块（长 90、14）位移都为 `(1, −1)` 且满足两式。`PersistA/GateRebase.lean` 补上衔接（`exists_gate_rebase_sharedBoundary`）：任意 `(2, −2)` 自洽字在锚相位 `a0` 处循环移位后仍自洽（`cyclicShift_consistent`），切点 `d0 + 2` 处的两块恰为两段闭合游程加各自的 E、S 桥，并满足共同边界判据。由于锚点的入射朝向为南、规范轨迹从北出发，移位后的漂移为 `(−2, 2)`、块位移为 `(−1, 1)`，用的是旋转后的 `Northwest` 版本判据（同样是充要条件）。标准字实例：锚 `(16, 15, 26, 25)`、`d0 = 8`、`d1 = 92`，第二块跨周期接缝。
 
+**[已证明，纯内核]** A 第 5 会话的 6 个模块（GPT-6 Astra，原样并入 `PersistA/`，仅删去 `#print`）：
+- `ParityBand.different_tails_force_strict_interlacing`：同层同通道的两个支撑点 `a < b` 若外部需求位 `b_U = a_U + T_U(·+2d) mod 2` 不同，则另一块在开区间 `(a, b)` 内有奇数总访问（对抽象的有限站点列表陈述；接到真实字的步骤为纸面）。
+- `BlockReturn.short_return_lift` / `upper_run_return_lift`：真实的同格单侧返回短于一个周期时的提升关系；`BlockMerge.cross_block_order`：跨块时钟排序与批次奇偶归并（整数与块列表层面）。
+- `SharedEdge.first_return_share_direction`：真实首次返回的两端恰好共享一个入向或出向。
+- `EntryBridge.first_north_read_black`：门块开始前北邻桥格刚被白读翻黑，故本块首次访问它时读黑。
+- `ExtremalOverlap.other_block_above_repeat`：本块在顶层重复访问同类，迫使另一块访问更高层。
+- **边界**：这些是宽度论证的局部接口；由同层交错推出横向高度界的步骤未证明，不给出宽度上界。
+
 ### `(m, −m)` 的零位移上方返回：保序与相邻禁型（2026-11-23）
 
 **[已证明，纯内核]** `DiagonalReturnOrder.lean`。`UpperReturn` 是带完整见证的物理返回：提升后的连续路径、正长度、同格返回、中间点严格位于该格所在层之上，以及出入端口编号。对任意 `m > 0`、完整漂移 `(m, −m)` 的自洽字（不假设最小周期、不限表长）：
