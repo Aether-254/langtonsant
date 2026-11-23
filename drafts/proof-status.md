@@ -542,6 +542,20 @@ theorem periodic_tail_eight_le_growth (hs : FiniteSupport s.board) (hP : 0 < P)
 - **来源**：纸面证明由 GPT-6 Astra 在 `research/persist-B-diagonal-m3-2026-11-22.md` 第 1、9 轮给出，是单位对角证明逐通道的推广；未见于已检索的文献（`research/prior-art-survey-2026-11-22.md`）。
 - **边界**：这是局部禁型，不排除任何 `m`；排除 `m ≥ 3` 仍需全局论证（见该日志）。
 
+### 两格对角混合尾迹的模 2 缺陷恒等式（2026-11-23）
+
+**[已证明，纯内核]** `MixedWakeDefect.lean`。对完整漂移 `(2, −2)`、末朝向北的周期字，相邻偶层 `t, t+2`（`t` 偶）满足
+
+```text
+(eCnt(t+2, r) + nCnt(t+1, ¬r) + eCnt(t, r) + nCnt(t−1, ¬r)) mod 2
+  = (classMult(t, ¬r) + classMult(t+2, r)) mod 2
+```
+
+（`mixed_step_defect`，只用精确的双通道流守恒）。标准字第 0 层的 `classMult = 3`，因此不是纯奇层尾迹（`stdHighwaySE_not_pureOddWake`），齐次情形不适用于它；另附标准字的边界接口计数（`stdHighwaySE_interfaces`，`decide +kernel`）。
+
+- **来源**：GPT-6 Astra，第二轮 brainstorm T3（`research/brainstorm2-T3-width-2026-11-22.md` 第 2、7 节），原在仓库外临时文件中核验。
+- **边界**：恒等式只依赖计数，T3 的加宽计数族同样满足它，因此它本身不给宽度上界。
+
 ### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
 
 **[已证明，信任基础进一步扩大]** `PeriodicNative/Small35.lean`：
