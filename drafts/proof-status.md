@@ -628,7 +628,16 @@ D_t = 4 · Σ_{s=t}^{T−1} f_s − P · Σ_{s=t}^{T−1} (−1)^s f_s
 - `PersistA.TranslationShift.no_half_drift_table_symmetry`：半漂移平移 `(1, −1)` 不可能保持全部按秩方向表（否则有半周期，其根为单位对角漂移，被排除）。
 - 中间结果：首访前驱映射的类边与时钟（`FirstVisitMap`）、有限轨道必有简单环（`FiniteOrbitCycle`）、双通道极大环长为 4（`TwoLaneCycle`）、稳定时间间隔即真实闭合路径（`GatePath`）、时序回路的电压预算（`TimingCircuit`）。
 
-- **边界**：没有限制两条游程的横向高度（标准字表明它们可在锚层两侧活动），因此不给出宽度上界；第 70 轮的共同边界方程未形式化。
+- **边界**：没有限制两条游程的横向高度（标准字表明它们可在锚层两侧活动），因此不给出宽度上界。
+
+**[已证明，纯内核]** `PersistA/SharedBoundary.lean` 形式化第 70 轮的共同边界方程：对末朝向北、完整漂移 `(2, −2)` 的字和切点 `cut ≤ P`，把相位 `[0, cut)` 记为块 U、`[cut, P)`（坐标减 `(1, −1)`）记为块 V；若 `aU`、`aV` 分别使两块内部翻色合法，则
+
+```text
+ConsistentWord P w  ⟺  对 U 访问过的 p：T_V(p+d) = a_U(p) ⊕ T_U(p+2d)，
+                       对 V 访问过的 p：T_U(p+d) = a_V(p) ⊕ T_V(p+2d)，  d = (1, −1)
+```
+
+（`consistentWord_iff_sharedBoundary`；`T` 为沿 `p + 2jd` 半线的访问重数模 2，`Block.T_eq_finite_sum`）。标准字在 `cut = 90` 处两块（长 90、14）位移都为 `(1, −1)` 且满足两式。**未连接**：从 `exists_two_gate_decomposition` 的任意锚相位自动重基到这里的切点（需要同时保留坐标、朝向与跨周期提升的循环重基引理）。
 
 ### `(m, −m)` 的零位移上方返回：保序与相邻禁型（2026-11-23）
 
