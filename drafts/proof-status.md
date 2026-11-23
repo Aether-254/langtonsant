@@ -673,6 +673,8 @@ ConsistentWord P w  ⟺  对 U 访问过的 p：T_V(p+d) = a_U(p) ⊕ T_U(p+2d)�
 
 - **来源**：B 日志第 4 会话（GPT-6 Astra）的仓库外草稿，原样并入。
 
+**[已证明，纯内核]** `FrontierCollision.lean`（B 第 6 会话草稿，原样并入）：区域内状态一致沿运行保持（`RegionEq.run`）；正时间后的前沿状态碰撞使整个未来平移（`region_shift_future`）；若碰撞的横向平移 `0 ≤ a < m` 小于完整漂移，则所选周期不是最小读周期（`frontier_collision_not_least`）；删去永不再读的格不改变轨迹（`trimFuture_trace`）；首次读取决定初始颜色（`initial_color_forced`）。**真实字中碰撞的存在性没有证明。**
+
 ### 有限支撑轨道的黑格数下界（C 第 3 轮；2026-11-23）
 
 **[已证明，纯内核]** `BlackCountBound.lean`。对任意有限状态（黑格列表无重复）、窗口宽 `W > 0`：
