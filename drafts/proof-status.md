@@ -624,6 +624,19 @@ D_t = 4 · Σ_{s=t}^{T−1} f_s − P · Σ_{s=t}^{T−1} (−1)^s f_s
 - **来源**：B 日志第 15–17 轮，GPT-6 Astra；第 12 轮的首入射推进已在 `PortBridge.lean`（`UnitDiagonal.first_index_corollary`）中，直接复用。Lean 证明由 GPT-6 Astra 完成。
 - **边界**：只排除特定端口配置，不提供跨层下降量，不排除任何 `m`。
 
+### 上方行程的分段时序、父段分解与强制桥（2026-11-23）
+
+**[已证明，纯内核]** `DiagonalSegments.lean`。`Excursion` 是真实的极大上方行程（两端在截面上、内部严格在上方的 `ContinuousPhasePath`），带周期平移、子段与无空隙拼接接口。对层漂移为零的非零完整漂移：
+
+- 第 21 轮：同类事件的稳定秩比较给出 `P·(h_B − h_A) < X_B − X_A`（`Excursion.rank_edge`）；真实行程组成的任意非空比较闭路总权严格为负（`physical_cycle_weight_negative`），不要求最小周期。
+- 第 23 轮：每个子段存在唯一的父段分解且覆盖完整（`exists_parentChain`、`ParentChain.unique`）；子段位移等于两次过界步加父段位移之和；零位移父段只能在链的一端（`ParentChain.zero_parent_endpoint`），非空纯零链长度恰为 2。
+- 第 24 轮：零返回的强制桥两分支（`upperReturn_forced_bridge`），含零位移父段的桥环不存在，拼接保持分离，收缩后的权重为 `w + h_V − h_U`。
+- 第 32 轮：同一物理竖线上的东入事件高度同奇偶（`east_entries_same_y_parity`）。
+- 标准字见证：子段 `0 → 86` 的父链 `1 → 9 → 85`，两个父段位移为零、子段位移 `+1`。
+
+- **来源**：B 日志第 21–24、32 轮，GPT-6 Astra；Lean 证明由 GPT-6 Astra 完成。
+- **边界**：第 21 轮的反向方向（由无负环构造调度）、整周期取商后的全局父段枚举、第 24 轮五层前缀的有限搜索、第 32 轮的符号注入下界均未形式化。不排除任何 `m`。
+
 ### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
 
 **[已证明，信任基础进一步扩大]** `PeriodicNative/Small35.lean`：
