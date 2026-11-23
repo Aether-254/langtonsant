@@ -578,6 +578,19 @@ theorem periodic_tail_eight_le_growth (hs : FiniteSupport s.board) (hP : 0 < P)
 - **来源**：纸面证明为 GPT-6 Astra 第二轮 brainstorm T2；Lean 证明由 GPT-6 Astra 完成。
 - **边界**：命题 1 是局部结论，不排除任何 `m`。
 
+### 取根与素数倍对角漂移的最小性（2026-11-23）
+
+**[已证明，纯内核]** `RootWord.lean`。`ReadPeriod q w` 表示整个读字的周期（`ConsistentWord P w` 只约束前 `P` 项，故单独定义）。
+
+- `root_word`：若 `ConsistentWord P w`、`0 < q`、`q ∣ P`、`ReadPeriod q w`，则 `ConsistentWord q w`，且 `wordDrift P w = (P/q) · wordDrift q w`。`q` 步恢复朝向是**推出来的**（`period_heading`：短周期的旋转须固定非零完整漂移，非恒等四分之一圈旋转只固定零向量），不需要最小性或对角性。
+- `root_word_diagonal` / `least_root_diagonal`：完整漂移 `(m, −m)` 时 `P/q ∣ m`，根漂移为 `(m/(P/q), −m/(P/q))`；最小根总是存在。
+- `prime_drift_minimal` / `prime_drift_least`：`m` 为素数时所选 `P` 就是最小正读周期（否则根为单位对角，被 `UnitDiagonal` 排除）。
+- `odd_drift_root`：`m` 为奇数时根漂移仍为奇数且 `≥ 3`。
+- 非空泛检查：标准字的 2 次幂（`P = 208`，漂移 `(4, −4)`）自洽，其 104 步根自洽且 104 是最小读周期。
+
+- **来源**：纸面论证为 GPT-6 Astra（`research/persist-B-diagonal-m3-2026-11-22.md` 第 18 轮）；Lean 证明由 GPT-6 Astra 完成，并补出了纸面中略过的朝向恢复。
+- **推论**：任何完整漂移 `(3, −3)`（或任意奇数倍、任意素数倍）的自洽字都直接是目标 B 的反例，无需另加最小周期假设；目标 B 等价于排除所有奇数 `m ≥ 3` 以及偶数 `m` 的根漂移 `≥ 3`。
+
 ### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
 
 **[已证明，信任基础进一步扩大]** `PeriodicNative/Small35.lean`：
