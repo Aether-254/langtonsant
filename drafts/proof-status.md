@@ -707,7 +707,7 @@ E_W(N) ≤ |B_0| + 2L · D_{⌈N/L⌉}
 - **来源**：纸面论证为 GPT-6 Astra（C 日志第 2 会话）；Lean 证明由 GPT-6 Astra 完成，审读未发现需要加强的假设。
 - **边界**：没有证明一般有限初态存在使 `D_K = o(K)` 的方向与尺度；该前提即使成立，也只推出 C-M。
 
-**[已证明，纯内核]** `TimeReversal.lean`、`PeriodicFlux.lean`（C 第 2 会话草稿，GPT-6 Astra；由 ECNU 并入，仅改命名空间与一处 linter 选项，证明未改）：完整状态时间反演 `reverseC` 是对合、把一步前进共轭为一步后退、保持有限支撑，反演后的运行按逆序读出补色（`read_reverseC_run`）；`axisParity` 沿运行守恒而反演必翻转它，故任何运行状态都不等于自身某状态的反演，也不等于其偶平移，连位姿相同都不可能（`run_pose_ne_translate_reverseC_C`）。仓库已有的 44 步背景字增长为 12、黑输入相位恰为 7 个，有背景实现却不是白背景自洽字（`mixed44_positive_growth_not_white_C`）：正增长加背景实现推不出白背景自洽。
+**[已证明，纯内核]** `TimeReversal.lean`、`PeriodicFlux.lean`（C 第 2 会话草稿，GPT-6 Astra；由 DeepSeek V4.1 Flash 并入，仅改命名空间与一处 linter 选项，证明未改）：完整状态时间反演 `reverseC` 是对合、把一步前进共轭为一步后退、保持有限支撑，反演后的运行按逆序读出补色（`read_reverseC_run`）；`axisParity` 沿运行守恒而反演必翻转它，故任何运行状态都不等于自身某状态的反演，也不等于其偶平移，连位姿相同都不可能（`run_pose_ne_translate_reverseC_C`）。仓库已有的 44 步背景字增长为 12、黑输入相位恰为 7 个，有背景实现却不是白背景自洽字（`mixed44_positive_growth_not_white_C`）：正增长加背景实现推不出白背景自洽。
 
 ### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
 

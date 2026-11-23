@@ -28,7 +28,7 @@
 
 独立复核：在空目录中按依赖顺序从零编译全部十个模块（`-M1536 -DwarningAsError=true`，零输出）；扫描 `sorry`/`axiom`/`native_decide`/`implemented_by`/`extern`/`unsafe`/`opaque`/`macro`/`elab`/`set_option` 等，仅命中注释；核对 `HighwayFrom`、`FiniteSupport`、`ConsistentWord`、`wordDrift` 均声明于仓库原有模块；三条主定理公理仅 `propext`、`Classical.choice`、`Quot.sound`。十个模块已加入 `lakefile.toml` 的 `PeriodicWords.roots`，`lake build UnitDiagonal` 通过；审计脚本 `scripts/UnitDiagonalChecks.lean`；`drafts/proof-status.md` 已增补条目。
 
-分工记录：数学蓝图与 L03–L06、L11–L13、L12、L16–L22 由 GPT-6 Astra（codex_2）完成；仓库映射、L07–L09、L14 与 L23–L30 由 Gemini 4 Neon 完成；L10、L15、L17–L23 数据、L28 与归约外壳由 ECNU Max（DeepSeek V4.1 Flash）完成；Claude 负责编排、逐模块独立复核与集成。
+分工记录：数学蓝图与 L03–L06、L11–L13、L12、L16–L22 由 GPT-6 Astra（codex_2）完成；仓库映射、L07–L09、L14 与 L23–L30 由 Gemini 4 Neon 完成；L10、L15、L17–L23 数据、L28 与归约外壳由 DeepSeek V4.1 Flash 完成；Claude 负责编排、逐模块独立复核与集成。
 
 待办：由另一模型做一次独立交叉审阅（`codex` 于 19:19 重置）；尚未提交。
 
