@@ -603,6 +603,19 @@ theorem periodic_tail_eight_le_growth (hs : FiniteSupport s.board) (hP : 0 < P)
 - **来源**：A 日志（`research/persist-A-width-2026-11-22.md`）第 36、37 轮，GPT-6 Astra；Lean 证明由 GPT-6 Astra 完成。
 - **边界**：第 36 轮的完整切口求和式、第 33–35 轮的游程与缺陷计数仍未形式化；不给出宽度上界。
 
+### `(m, −m)` 的零位移上方返回：保序与相邻禁型（2026-11-23）
+
+**[已证明，纯内核]** `DiagonalReturnOrder.lean`。`UpperReturn` 是带完整见证的物理返回：提升后的连续路径、正长度、同格返回、中间点严格位于该格所在层之上，以及出入端口编号。对任意 `m > 0`、完整漂移 `(m, −m)` 的自洽字（不假设最小周期、不限表长）：
+
+- `upperReturn_zeroReturn`：由首次返回秩加一，得到端口秩方程 `p[i] = q[j] + 1`。
+- `upperReturn_strict_order`：同一格的零返回配对严格保序（`j < j' ↔ i < i'`），因此是单值且反向单值的部分映射。
+- `upperReturn_adjacent_first`：`j → 0` 之后，下一出端口 `j+1` 的零返回只能落在入端口 1。
+- `upperReturn_cycle_constant`：端口编号的有限闭链必为常值（允许不动点）。
+- 标准字见证：格 `(1, 0)` 上有相位 `1 → 9`（端口 `0 → 0`）与 `9 → 85`（端口 `1 → 1`）两次真实返回，两条相邻定理的前提同时可满足。
+
+- **来源**：B 日志第 15–17 轮，GPT-6 Astra；第 12 轮的首入射推进已在 `PortBridge.lean`（`UnitDiagonal.first_index_corollary`）中，直接复用。Lean 证明由 GPT-6 Astra 完成。
+- **边界**：只排除特定端口配置，不提供跨层下降量，不排除任何 `m`。
+
 ### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
 
 **[已证明，信任基础进一步扩大]** `PeriodicNative/Small35.lean`：
