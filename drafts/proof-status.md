@@ -611,6 +611,15 @@ D_t = 4 · Σ_{s=t}^{T−1} f_s − P · Σ_{s=t}^{T−1} (−1)^s f_s
 
 其中 `D_t` 是两通道带符号边界时间之和（`boundaryTime`，等于向下直穿与向上直穿事件的 `η` 和之差），`f_s` 是切口 `s → s+1` 的实际向上穿越数（`cutFlow`）。中间步骤 `D_t = 2·upperLength − P·upperTransport` 直接定义在上区实际边上，用周期边上的循环关联消去证明，跨周期接缝的符号全部保留，不使用 `L < P`。未构造显式的“上游程列表”对象及其与边的双射（主定理不需要它）。
 
+**[已证明，纯内核]** `WidthDefects.lean` 补上第 33–35 轮，全部接到真实轨迹：`UpperRun` 是从层 `t` 向上出发、首次回到该层结束的真实游程（允许 `L = P`）。
+
+- 第 34 轮 (34.1)：按端点类型 BB/BT/TB/TT 分类游程，`2(BB_t − TT_t) = f_t − f_{t−1} + A_t`（`same_colour_endpoint_defect`），`A_t` 由真实两通道重数的奇偶定义。
+- 第 35 轮 (35.1)：对任意中心 `c`，`K_c = P + 4 Σ_t [(t−c) f_t + (t−c)² (BB_t − TT_t)]`（`secondMoment_defect_expansion`），不使用 `L < P`。
+- 第 33 轮：BB、TT 游程不能回到同一物理格；`−2N ≤ f_t − f_{t−1} + A_t ≤ 2N`（`nonreturn_discrete_derivative_bound`）；游程与上方边一一对应（`runEdgeOccurrence_perm`），游程总长 `= 2 Σ f`，总位移 `= Σ (−1)^s f_s`（`runTransport_eq_signed_cut_sum`）。**后两式需要 `botLayer ≤ t`**：切口低于整条轨迹时没有边界游程，标准字 `t = −2` 给出内核核验的反例，纸面原式未写这一条件。
+- 标准字数据：`t = 4` 时 `(BB, BT, TB, TT) = (2, 3, 3, 1)`；`c = 4` 的二次矩为 168。
+
+- **边界**：第 35 轮 (35.2) 的短游程秩方向分类未形式化；不给出宽度上界。
+
 ### `(m, −m)` 的零位移上方返回：保序与相邻禁型（2026-11-23）
 
 **[已证明，纯内核]** `DiagonalReturnOrder.lean`。`UpperReturn` 是带完整见证的物理返回：提升后的连续路径、正长度、同格返回、中间点严格位于该格所在层之上，以及出入端口编号。对任意 `m > 0`、完整漂移 `(m, −m)` 的自洽字（不假设最小周期、不限表长）：
