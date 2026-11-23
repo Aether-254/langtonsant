@@ -589,7 +589,7 @@ theorem periodic_tail_eight_le_growth (hs : FiniteSupport s.board) (hP : 0 < P)
 - 非空泛检查：标准字的 2 次幂（`P = 208`，漂移 `(4, −4)`）自洽，其 104 步根自洽且 104 是最小读周期。
 
 - **来源**：纸面论证为 GPT-6 Astra（`research/persist-B-diagonal-m3-2026-11-22.md` 第 18 轮）；Lean 证明由 GPT-6 Astra 完成，并补出了纸面中略过的朝向恢复。
-- **推论**：任何完整漂移 `(3, −3)`（或任意奇数倍、任意素数倍）的自洽字都直接是目标 B 的反例，无需另加最小周期假设；目标 B 等价于：任意完整漂移 `(m, −m)` 自洽字的最小根，其漂移倍数恰为 2（单位倍数已排除）。这是等价改写，不是目标 B 的证明。
+- **推论**：完整漂移为奇素数倍 `(p, −p)`（`p ≥ 3`，如 `(3, −3)`）的自洽字，所选周期已是最小读周期，直接构成目标 B 的反例；奇数倍 `m ≥ 3` 的自洽字取最小根（`least_root_diagonal`、`odd_drift_root`）后，根的倍数仍为奇数且 `≥ 3`，同样构成反例。（`m = 2` 是素数，但对应标准公路，不是反例。）目标 B 等价于：任意完整漂移 `(m, −m)` 自洽字的最小根，其漂移倍数恰为 2（单位倍数已排除）。这是纸面上的等价改写，未单列为 Lean 定理，也不是目标 B 的证明。
 
 ### `(2, −2)` 的共同时间坐标与秩间隔展开（2026-11-23）
 
@@ -615,7 +615,7 @@ D_t = 4 · Σ_{s=t}^{T−1} f_s − P · Σ_{s=t}^{T−1} (−1)^s f_s
 
 - 第 34 轮 (34.1)：按端点类型 BB/BT/TB/TT 分类游程，`2(BB_t − TT_t) = f_t − f_{t−1} + A_t`（`same_colour_endpoint_defect`），`A_t` 由真实两通道重数的奇偶定义。
 - 第 35 轮 (35.1)：对任意中心 `c`，`K_c = P + 4 Σ_t [(t−c) f_t + (t−c)² (BB_t − TT_t)]`（`secondMoment_defect_expansion`），不使用 `L < P`。
-- 第 33 轮：BB、TT 游程不能回到同一物理格；`−2N ≤ f_t − f_{t−1} + A_t ≤ 2N`（`nonreturn_discrete_derivative_bound`）；游程与上方边一一对应（`runEdgeOccurrence_perm`），游程总长 `= 2 Σ f`，总位移 `= Σ (−1)^s f_s`（`runTransport_eq_signed_cut_sum`）。**后两式需要 `botLayer ≤ t`**：切口低于整条轨迹时没有边界游程，标准字 `t = −2` 给出内核核验的反例，纸面原式未写这一条件。
+- 第 33 轮：BB、TT 游程不能回到同一物理格；`−2N ≤ f_t − f_{t−1} + A_t ≤ 2N`（`nonreturn_discrete_derivative_bound`）；游程与上方边一一对应（`runEdgeOccurrence_perm`），游程总长 `= 2 Σ f`，总位移 `= Σ (−1)^s f_s`（`runTransport_eq_signed_cut_sum`）。**以上三式（`runEdgeOccurrence_perm`、游程总长、`runTransport_eq_signed_cut_sum`）都需要 `botLayer ≤ t`**：切口低于整条轨迹时没有边界游程，标准字 `t = −2` 给出内核核验的反例，纸面原式未写这一条件。
 - 标准字数据：`t = 4` 时 `(BB, BT, TB, TT) = (2, 3, 3, 1)`；`c = 4` 的二次矩为 168。
 
 - **边界**：第 35 轮 (35.2) 的短游程秩方向分类未形式化；不给出宽度上界。
@@ -626,7 +626,7 @@ D_t = 4 · Σ_{s=t}^{T−1} f_s − P · Σ_{s=t}^{T−1} (−1)^s f_s
 
 - `PersistA.TwoGateDecomposition.exists_two_gate_decomposition`：存在四个稳定秩为 0 的锚相位（由首访前驱 `firstPred` 连成四环）和正整数 `d0, d1 < P`，使 `P = d0 + d1 + 4`，且从两个锚出发的长 `d0`、`d1` 的真实连续路径各自回到同一物理格，两段之间由真实后继（E、S 桥）连接。即：任意这类字都分解为“同格闭合游程 C0 → E,S → 同格闭合游程 C1 → E,S”。
 - `PersistA.TranslationShift.no_half_drift_table_symmetry`：半漂移平移 `(1, −1)` 不可能保持全部按秩方向表（否则有半周期，其根为单位对角漂移，被排除）。
-- 中间结果：首访前驱映射的类边与时钟（`FirstVisitMap`）、有限轨道必有简单环（`FiniteOrbitCycle`）、双通道极大环长为 4（`TwoLaneCycle`）、稳定时间间隔即真实闭合路径（`GatePath`）、时序回路的电压预算（`TimingCircuit`）。
+- 中间结果：首访前驱映射的类边与时钟（`FirstVisitMap`）、有限轨道必有简单环（`FiniteOrbitCycle`）、双通道商图的简单有向环在其最高层顶点处四步闭合（`TwoLaneCycle.maximal_cycle_four` / `finite_reverse_cycle_four`；结合边的定义，环长恰为 4，但该精确周期未单列为定理）、稳定时间间隔即真实闭合路径（`GatePath`）、时序回路的电压预算（`TimingCircuit`）。
 
 - **边界**：没有限制两条游程的横向高度（标准字表明它们可在锚层两侧活动），因此不给出宽度上界。
 
@@ -669,7 +669,7 @@ ConsistentWord P w  ⟺  对 U 访问过的 p：T_V(p+d) = a_U(p) ⊕ T_U(p+2d)�
 
 **[已证明，纯内核]** `DiagonalTablePeriod.lean`：若通道平移 `(a, −a)`（`0 < a < m`）保持完整漂移 `(m, −m)` 自洽字的全部按秩方向表，则诱导映射是循环移位 `i ↦ (F 0 + i) mod P`，`F 0` 是周期延拓的读周期且 `0 < F 0 < P`，故 `P` 不是最小读周期（`diagonal_tables_not_least`）。**这种平移的存在性没有证明**。
 
-**[已证明，纯内核]** `RootTail.lean`：周期算术。若最小周期为 `P` 的序列最终有周期 `q`，则 `P ≤ q`；若坐标 `x` 每 `P` 步前进 `m`、最终每 `q` 步前进 `u ≥ 0`，则 `m ≤ u`；`u = 2`、`m ≥ 2` 时 `m = 2` 且 `P = q`（`tail_two_exact_root`）。引理对任意整数坐标成立，用于真实轨迹时取其横坐标。
+**[已证明，纯内核]** `RootTail.lean`：周期算术。若最小周期为 `P` 的序列最终有周期 `q`，则 `P ≤ q`；在同一前提下（`q > 0`），若坐标 `x` 每 `P` 步前进 `m`、最终每 `q` 步前进 `u ≥ 0`，则 `m ≤ u`；`u = 2`、`m ≥ 2` 时 `m = 2` 且 `P = q`（`tail_two_exact_root`）。引理对任意整数坐标成立，用于真实轨迹时取其横坐标。
 
 - **来源**：B 日志第 4 会话（GPT-6 Astra）的仓库外草稿，原样并入。
 
