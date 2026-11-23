@@ -8,3 +8,6 @@ scratch-codex/
 test.txt
 *.olean.tmp
 __pycache__/
+
+# Local workflow notes (not published)
+AGENTS.md
