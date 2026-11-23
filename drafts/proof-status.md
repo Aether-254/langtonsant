@@ -654,17 +654,24 @@ D_t = 4 · Σ_{s=t}^{T−1} f_s − P · Σ_{s=t}^{T−1} (−1)^s f_s
 
 - **来源**：B 日志第 4 会话（GPT-6 Astra）的仓库外草稿，原样并入。
 
-### 有限支撑轨道的缓存收支（C 第 3 轮，部分；2026-11-23）
+### 有限支撑轨道的黑格数下界（C 第 3 轮；2026-11-23）
 
-**[已证明，纯内核；目标不等式未完成]** `BlackCountBound.lean`。对任意有限状态（黑格列表无重复）、窗口宽 `W > 0`：
+**[已证明，纯内核]** `BlackCountBound.lean`。对任意有限状态（黑格列表无重复）、窗口宽 `W > 0`：
 
 - `cache_balance` / `cache_balance_interval`：最近窗口缓存的精确单步与区间收支 `A(n+1) − A(n) = 1 − 2c(n) + m(n) − e(n)`（失配 `m`、淘汰 `e`）；淘汰至多一格且只能是窗口最早的读格。
 - `black_cache_balance`：完整黑格数 `B(a+L) − B(a) = A(a+L) − A(a) + 淘汰数 − 失配数`。
 - `black_bound_of_event_bound`：**条件归约**——若事件数 `失配 + 淘汰 ≥ K`，则 `B(a+N) ≥ B(a) − W + K − 2·失配`。
 - `finite_highway_growthInt_ge_eight`：有限支撑的真实 `HighwayFrom` 每周期带符号增长至少 8。
 
-- **未完成**：C 日志第 3 轮的无条件不等式 `|B_N| ≥ |B_W| − W + ⌊(N−W)/2^W⌋ − 2E_W(N)`。缺两步：任意后缀预测器循环有严格正的转向质量（需要把零淘汰循环提升为真实有限支撑轨道；现有增长定理只适用于已给出的 `HighwayFrom`），以及在长 `2^W` 的无事件区间中抽出循环并证明缓存基数相同。审读未发现纸面论证的错误。
-- **来源**：纸面论证为 GPT-6 Astra（`research/persist-C-periodic-tail-2026-11-23.md` 第 3 轮）；Lean 证明由 GPT-6 Astra 完成。
+- **[已证明，纯内核] 无条件不等式** `BlackCountBound2.lean`：对任意有限支撑初态、`W ≥ 1`、`N ≥ W`，
+
+  ```text
+  |B_N| ≥ |B_W| − W + ⌊(N − W) / 2^W⌋ − 2·E_W(N)
+  ```
+
+  其中 `E_W(N)` 是时刻 `W..N−1` 中“黑读且所读格不在最近 `W` 步读过的格中”的次数（`missCount`）。`black_bound_finiteSupport` 对任意无重复的精确黑格枚举成立。证明：无事件（无失配、无黑格淘汰）区间上，窗口缓存本身按真实蚂蚁规则演化（`cacheState_run`）；相同的长 `W` 读色后缀使缓存相差一个刚体运动（`cacheState_rigid_of_suffix`）；有限棋盘不能在正时间后回到自身的刚体像（`finite_no_rigid_return`：迭代四次得平移回返，即零净增长的有限支撑公路，与增长 ≥ 8 矛盾）。故每 `2^W` 步至少一个事件（`event_bound_suffix`，此步对任意初态成立），再代入缓存收支。状态数确为 `2^W`：后缀只决定缓存到刚体运动，不需要朝向因子。
+- **来源**：纸面论证为 GPT-6 Astra（`research/persist-C-periodic-tail-2026-11-23.md` 第 3 轮）；Lean 证明由 GPT-6 Astra 完成，用刚体回返直接排除重复后缀，绕开了纸面的“抽象预测器循环”。
+- **边界**：这不证明窗口外黑读稀疏（C-M），也不证明最终周期性。
 
 ### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
 
