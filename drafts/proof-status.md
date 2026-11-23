@@ -556,6 +556,13 @@ theorem periodic_tail_eight_le_growth (hs : FiniteSupport s.board) (hP : 0 < P)
 - **来源**：GPT-6 Astra，第二轮 brainstorm T3（`research/brainstorm2-T3-width-2026-11-22.md` 第 2、7 节），原在仓库外临时文件中核验。
 - **边界**：恒等式只依赖计数，T3 的加宽计数族同样满足它，因此它本身不给宽度上界。
 
+### 保持有序方向表的平移与后继交换（2026-11-23）
+
+**[已证明，纯内核]** `DirectionTableTranslation.lean`。对任意非零完整漂移 `v` 的自洽字，若空间平移 `b` 保持每个平移类按稳定秩索引的入射方向表（`PreservesTables`，所有类、所有秩，含空类），则“目标类、同秩”映射 `F` 与循环后继交换（`F_succ`）；`v = (m, −m)`、`b = (a, −a)` 时即固定层的通道平移（`diagonal_F_succ`）。零平移诱导恒等映射（`F_zero`），作为非空泛检查。
+
+- **来源**：纸面引理为 GPT-6 Astra 第二轮 brainstorm T2（`research/brainstorm2-T2-diagonal-multiples-2026-11-22.md`），Lean 证明由 GPT-6 Astra 完成。
+- **边界**：这只是 T2 排除 `m ≥ 3` 路线的第一步；由方向表对称推出单环、更短周期或矛盾的部分仍未形式化，T2 的命题 1（第一内层至少一条通道在秩 0）也未形式化。
+
 ### 扩展到周期 ≤ 35（P = 34 的块在 Kaggle 上计算）
 
 **[已证明，信任基础进一步扩大]** `PeriodicNative/Small35.lean`：
