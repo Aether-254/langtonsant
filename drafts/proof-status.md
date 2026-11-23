@@ -637,7 +637,7 @@ ConsistentWord P w  ⟺  对 U 访问过的 p：T_V(p+d) = a_U(p) ⊕ T_U(p+2d)�
                        对 V 访问过的 p：T_U(p+d) = a_V(p) ⊕ T_V(p+2d)，  d = (1, −1)
 ```
 
-（`consistentWord_iff_sharedBoundary`；`T` 为沿 `p + 2jd` 半线的访问重数模 2，`Block.T_eq_finite_sum`）。标准字在 `cut = 90` 处两块（长 90、14）位移都为 `(1, −1)` 且满足两式。**未连接**：从 `exists_two_gate_decomposition` 的任意锚相位自动重基到这里的切点（需要同时保留坐标、朝向与跨周期提升的循环重基引理）。
+（`consistentWord_iff_sharedBoundary`；`T` 为沿 `p + 2jd` 半线的访问重数模 2，`Block.T_eq_finite_sum`）。标准字在 `cut = 90` 处两块（长 90、14）位移都为 `(1, −1)` 且满足两式。`PersistA/GateRebase.lean` 补上衔接（`exists_gate_rebase_sharedBoundary`）：任意 `(2, −2)` 自洽字在锚相位 `a0` 处循环移位后仍自洽（`cyclicShift_consistent`），切点 `d0 + 2` 处的两块恰为两段闭合游程加各自的 E、S 桥，并满足共同边界判据。由于锚点的入射朝向为南、规范轨迹从北出发，移位后的漂移为 `(−2, 2)`、块位移为 `(−1, 1)`，用的是旋转后的 `Northwest` 版本判据（同样是充要条件）。标准字实例：锚 `(16, 15, 26, 25)`、`d0 = 8`、`d1 = 92`，第二块跨周期接缝。
 
 ### `(m, −m)` 的零位移上方返回：保序与相邻禁型（2026-11-23）
 
